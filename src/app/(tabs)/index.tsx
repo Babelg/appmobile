@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, type ScrollViewInstance } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -9,11 +9,13 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Path } from 'react-native-svg';
 
-import { Icon, ProgressBar, StatPill, Stars } from '@/components/ui';
+import { Icon, ProgressBar, StatPill, Stars, type IconName } from '@/components/ui';
 import { CARS } from '@/data/cars';
 import { lessonsOfRoute, ROUTES } from '@/data/routes';
 import type { Lesson, Route } from '@/data/types';
+import { ESTRADA, geometriaEstrada, type Parada } from '@/game/estrada';
 import { dayKey, isLessonUnlocked, visibleStreak } from '@/game/progress';
 import { buzz } from '@/lib/haptics';
 import { DAILY_GOAL_KM, todayKmOf, useProgress } from '@/store/progress';
@@ -108,6 +110,8 @@ function RouteSection({ route, number }: { route: Route; number: number }) {
   const owned = useProgress((s) => route.carIds.filter((id) => id in s.garage).length);
   const routeLessons = lessonsOfRoute(route.id);
   const locked = !isLessonUnlocked(routeLessons[0].id, completed);
+  const [largura, setLargura] = useState(0);
+  const estados: StopState[] = routeLessons.map((l) => (l.id in completed ? 'done' : isLessonUnlocked(l.id, completed) ? 'current' : 'locked'));
 
   return (
     <View style={styles.route}>
@@ -125,108 +129,136 @@ function RouteSection({ route, number }: { route: Route; number: number }) {
         </View>
       </View>
 
-      <View style={styles.road}>
-        {routeLessons.map((lesson, i) => (
-          <LessonStop
-            key={lesson.id}
-            lesson={lesson}
-            number={i + 1}
-            side={i % 2 === 0 ? 'left' : 'right'}
-            color={route.color}
-            state={
-              lesson.id in completed
-                ? 'done'
-                : isLessonUnlocked(lesson.id, completed)
-                  ? 'current'
-                  : 'locked'
-            }
-            stars={completed[lesson.id]?.stars ?? 0}
-          />
-        ))}
+      <View style={[styles.road, { height: ALTURA_ESTRADA }]} onLayout={(e) => setLargura(e.nativeEvent.layout.width)}>
+        {largura > 0 ? (
+          <EstradaSinuosa largura={largura} route={route} lessons={routeLessons} estados={estados} completed={completed} inverte={number % 2 === 0} enfeiteBase={number} />
+        ) : null}
       </View>
     </View>
   );
 }
 
-type StopState = 'done' | 'current' | 'open' | 'locked';
+type StopState = 'done' | 'current' | 'locked';
+
+const ALTURA_ESTRADA = ESTRADA.topo + 3 * ESTRADA.passo + ESTRADA.fim;
+const ENFEITES: IconName[] = ['pine-tree', 'traffic-cone', 'sign-direction', 'gas-station'];
+
+/** A pista sinuosa da rota: asfalto em curvas, faixa central na cor da rota no trecho já rodado. */
+function EstradaSinuosa(props: {
+  largura: number;
+  route: Route;
+  lessons: Lesson[];
+  estados: StopState[];
+  completed: Record<string, { stars: number }>;
+  inverte: boolean;
+  enfeiteBase: number;
+}) {
+  const { largura, route, lessons, estados, completed, inverte, enfeiteBase } = props;
+  const g = geometriaEstrada(largura, lessons.length, inverte);
+  // o trecho j chega na parada j (ou, o último, na saída da rota)
+  const rodado = (j: number) => (j < lessons.length ? estados[j] !== 'locked' : estados.every((e) => e === 'done'));
+  return (
+    <View style={StyleSheet.absoluteFill}>
+      <Svg width={largura} height={g.altura} style={StyleSheet.absoluteFill}>
+        {g.trechos.map((d, j) => (
+          <Path key={`acostamento${j}`} d={d} stroke={colors.border} strokeWidth={ESTRADA.pista + 10} strokeLinecap="round" fill="none" />
+        ))}
+        {g.trechos.map((d, j) => (
+          <Path key={`asfalto${j}`} d={d} stroke={colors.road} strokeWidth={ESTRADA.pista} strokeLinecap="round" fill="none" />
+        ))}
+        {g.trechos.map((d, j) => (
+          <Path
+            key={`faixa${j}`}
+            d={d}
+            stroke={rodado(j) ? route.color : colors.accentDim}
+            strokeWidth={rodado(j) ? 5 : 4}
+            strokeDasharray="14 12"
+            strokeLinecap="round"
+            fill="none"
+          />
+        ))}
+      </Svg>
+      {g.enfeites.map((e, i) => (
+        <View key={`enfeite${i}`} pointerEvents="none" style={{ position: 'absolute', left: e.x - 13, top: e.y - 13, opacity: 0.55 }}>
+          <Icon name={ENFEITES[(i + enfeiteBase) % ENFEITES.length]} size={26} color={colors.textFaint} />
+        </View>
+      ))}
+      {lessons.map((lesson, i) => (
+        <LessonStop
+          key={lesson.id}
+          lesson={lesson}
+          number={i + 1}
+          parada={g.pontos[i]}
+          largura={largura}
+          color={route.color}
+          state={estados[i]}
+          stars={completed[lesson.id]?.stars ?? 0}
+        />
+      ))}
+    </View>
+  );
+}
 
 function LessonStop(props: {
   lesson: Lesson;
   number: number;
-  side: 'left' | 'right';
+  parada: Parada;
+  largura: number;
   color: string;
   state: StopState;
   stars: number;
 }) {
-  const { lesson, number, side, color, state, stars } = props;
+  const { lesson, number, parada, largura, color, state, stars } = props;
   const locked = state === 'locked';
-
-  const label = (
-    <View style={[styles.stopLabel, side === 'left' ? { alignItems: 'flex-end' } : { alignItems: 'flex-start' }]}>
-      <Text style={[styles.stopKicker, locked && { color: colors.textFaint }]}>ETAPA {number}</Text>
-      <Text
-        style={[styles.stopTitle, { textAlign: side === 'left' ? 'right' : 'left' }, locked && { color: colors.textFaint }]}>
-        {lesson.title}
-      </Text>
-      {state === 'done' && <Stars count={stars} size={14} />}
-      {state === 'current' && (
-        <Text style={[styles.stopCta, { color, textAlign: side === 'left' ? 'right' : 'left' }]}>Toque para começar</Text>
-      )}
-    </View>
-  );
+  // o rótulo fica do lado oposto ao da parada, onde a pista não passa
+  const aDireita = parada.lado === 'esquerda';
+  const textAlign = aDireita ? 'left' : 'right';
+  const posRotulo = aDireita
+    ? { left: parada.x + NODE / 2 + 14, right: 0, alignItems: 'flex-start' as const }
+    : { left: 0, right: largura - (parada.x - NODE / 2 - 14), alignItems: 'flex-end' as const };
 
   return (
-    <View style={styles.stopRow}>
-      <View style={styles.side}>{side === 'left' && label}</View>
-      <View style={styles.lane}>
-        <LaneDashes />
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Etapa ${number}: ${lesson.title}${locked ? ' (bloqueada)' : ''}`}
-          disabled={locked}
-          onPress={() => {
-            buzz('tap');
-            router.push({ pathname: '/lesson/[id]', params: { id: lesson.id } });
-          }}
-          style={({ pressed }) => [pressed && { transform: [{ scale: 0.94 }] }]}>
-          {state === 'current' && <Pulse color={color} />}
-          <View
-            style={[
-              styles.node,
-              state === 'locked' && { backgroundColor: colors.surfaceAlt, borderColor: colors.border },
-              state === 'open' && { backgroundColor: colors.surface, borderColor: color },
-              (state === 'done' || state === 'current') && { backgroundColor: color, borderColor: colors.bg },
-            ]}>
-            <Icon
-              name={
-                state === 'locked'
-                  ? 'lock'
-                  : state === 'done'
-                    ? 'check-bold'
-                    : lesson.level === 'challenge'
-                      ? 'magnify-plus'
-                      : lesson.level === 'review'
-                        ? 'refresh'
-                        : 'car-sports'
-              }
-              size={30}
-              color={state === 'locked' ? colors.textFaint : state === 'open' ? color : colors.bg}
-            />
-          </View>
-        </Pressable>
+    <>
+      <View pointerEvents="none" style={[styles.stopLabel, posRotulo, { top: parada.y - 50 }]}>
+        <Text style={[styles.stopKicker, locked && { color: colors.textFaint }]}>ETAPA {number}</Text>
+        <Text style={[styles.stopTitle, { textAlign }, locked && { color: colors.textFaint }]}>{lesson.title}</Text>
+        {state === 'done' && <Stars count={stars} size={14} />}
+        {state === 'current' && <Text style={[styles.stopCta, { color, textAlign }]}>Toque para começar</Text>}
       </View>
-      <View style={styles.side}>{side === 'right' && label}</View>
-    </View>
-  );
-}
-
-function LaneDashes() {
-  return (
-    <View style={styles.dashes} pointerEvents="none">
-      {Array.from({ length: 5 }, (_, i) => (
-        <View key={i} style={styles.dash} />
-      ))}
-    </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Etapa ${number}: ${lesson.title}${locked ? ' (bloqueada)' : ''}`}
+        disabled={locked}
+        onPress={() => {
+          buzz('tap');
+          router.push({ pathname: '/lesson/[id]', params: { id: lesson.id } });
+        }}
+        style={({ pressed }) => [{ position: 'absolute', left: parada.x - NODE / 2, top: parada.y - NODE / 2 }, pressed && { transform: [{ scale: 0.94 }] }]}>
+        {state === 'current' && <Pulse color={color} />}
+        <View
+          style={[
+            styles.node,
+            state === 'locked' && { backgroundColor: colors.surfaceAlt, borderColor: colors.border },
+            (state === 'done' || state === 'current') && { backgroundColor: color, borderColor: colors.bg },
+          ]}>
+          <Icon
+            name={
+              state === 'locked'
+                ? 'lock'
+                : state === 'done'
+                  ? 'check-bold'
+                  : lesson.level === 'challenge'
+                    ? 'magnify-plus'
+                    : lesson.level === 'review'
+                      ? 'refresh'
+                      : 'car-sports'
+            }
+            size={30}
+            color={state === 'locked' ? colors.textFaint : colors.bg}
+          />
+        </View>
+      </Pressable>
+    </>
   );
 }
 
@@ -243,7 +275,6 @@ function Pulse({ color }: { color: string }) {
 }
 
 const NODE = 72;
-const LANE = 96;
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
@@ -308,22 +339,7 @@ const styles = StyleSheet.create({
   signTitle: { color: '#FFFFFF', fontWeight: '900', fontSize: 22 },
   signSubtitle: { color: 'rgba(255,255,255,0.85)', fontWeight: '600', fontSize: 14 },
   signCount: { color: '#FFFFFF', fontWeight: '800', fontSize: 12, marginTop: space(1), letterSpacing: 0.4 },
-  road: { paddingTop: space(2) },
-  stopRow: { flexDirection: 'row', alignItems: 'stretch' },
-  side: { flex: 1, justifyContent: 'center' },
-  lane: {
-    width: LANE,
-    backgroundColor: colors.road,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: space(4),
-  },
-  dashes: {
-    ...StyleSheet.absoluteFill,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  dash: { width: 5, height: 14, borderRadius: 2, backgroundColor: colors.accentDim },
+  road: { marginTop: 0 },
   node: {
     width: NODE,
     height: NODE,
@@ -339,7 +355,7 @@ const styles = StyleSheet.create({
     borderRadius: NODE / 2,
     borderWidth: 4,
   },
-  stopLabel: { paddingHorizontal: space(3), gap: 2 },
+  stopLabel: { position: 'absolute', height: 100, justifyContent: 'center', gap: 2 },
   stopKicker: { color: colors.textDim, fontWeight: '800', fontSize: 11, letterSpacing: 1 },
   stopTitle: { color: colors.text, fontWeight: '800', fontSize: 16 },
   stopCta: { fontWeight: '700', fontSize: 13 },
