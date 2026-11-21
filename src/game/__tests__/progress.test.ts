@@ -1,6 +1,16 @@
 import { LESSONS } from '@/data/routes';
 
-import { dayKey, daysBetween, faltamParaSubir, isLessonUnlocked, nextStreak, nivelDe, visibleStreak } from '../progress';
+import {
+  dayKey,
+  daysBetween,
+  etapasDeTeste,
+  faltamParaSubir,
+  isLessonUnlocked,
+  nextStreak,
+  NIVEL_MAX,
+  nivelDe,
+  visibleStreak,
+} from '../progress';
 
 describe('datas', () => {
   it('dayKey usa a data local', () => {
@@ -64,5 +74,18 @@ describe('nível do jogador', () => {
     expect(faltamParaSubir(0)).toBe(4);
     expect(faltamParaSubir(5)).toBe(3);
     expect(faltamParaSubir(30)).toBeNull();
+  });
+});
+
+describe('modo teste', () => {
+  it('libera o desafio final de toda rota no nível máximo', () => {
+    const etapas = etapasDeTeste();
+    expect(nivelDe(Object.keys(etapas).length)).toBe(NIVEL_MAX);
+    for (const route of new Set(LESSONS.map((l) => l.route))) {
+      const ultima = LESSONS.filter((l) => l.route === route).at(-1)!;
+      expect(ultima.level).toBe('challenge');
+      expect(ultima.id in etapas).toBe(false);
+      expect(isLessonUnlocked(ultima.id, etapas)).toBe(true);
+    }
   });
 });

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
-import { dayKey, nextStreak, nivelDe } from '@/game/progress';
+import { dayKey, etapasDeTeste, nextStreak, nivelDe } from '@/game/progress';
 import { starsFor } from '@/game/questions';
 
 export const DAILY_GOAL_KM = 50;
@@ -43,6 +43,8 @@ type ProgressData = {
   todayKm: { day: string; km: number };
   /** efeitos sonoros de acerto/erro ligados */
   som: boolean;
+  /** progresso real guardado enquanto o modo teste está ligado (null = modo teste desligado) */
+  backupTeste: Omit<ProgressData, 'som' | 'backupTeste'> | null;
 };
 
 export type LessonResult = {
@@ -67,6 +69,10 @@ export type LessonSummary = {
 type ProgressState = ProgressData & {
   finishLesson: (result: LessonResult) => LessonSummary;
   alternarSom: () => void;
+  /** guarda o progresso real e libera os desafios finais no nível máximo */
+  entrarModoTeste: () => void;
+  /** volta ao progresso guardado */
+  sairModoTeste: () => void;
   reset: () => void;
 };
 
@@ -81,6 +87,7 @@ const initial: ProgressData = {
   correct: 0,
   todayKm: { day: '', km: 0 },
   som: true,
+  backupTeste: null,
 };
 
 export const useProgress = create<ProgressState>()(
@@ -130,12 +137,25 @@ export const useProgress = create<ProgressState>()(
 
       alternarSom: () => set({ som: !get().som }),
 
+      entrarModoTeste: () => {
+        const { km, streak, bestStreak, lastPlayed, lessons, garage, answered, correct, todayKm, backupTeste } = get();
+        set({
+          backupTeste: backupTeste ?? { km, streak, bestStreak, lastPlayed, lessons, garage, answered, correct, todayKm },
+          lessons: { ...lessons, ...etapasDeTeste() },
+        });
+      },
+
+      sairModoTeste: () => {
+        const { backupTeste } = get();
+        if (backupTeste) set({ ...backupTeste, backupTeste: null });
+      },
+
       reset: () => set({ ...initial, som: get().som }),
     }),
     {
       name: 'progress-v1',
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ finishLesson, alternarSom, reset, ...data }) => data,
+      partialize: ({ finishLesson, alternarSom, entrarModoTeste, sairModoTeste, reset, ...data }) => data,
     },
   ),
 );

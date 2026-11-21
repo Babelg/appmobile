@@ -1,14 +1,22 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, Icon, type IconName } from '@/components/ui';
 import { CARS } from '@/data/cars';
 import { LESSONS } from '@/data/routes';
-import { dayKey, faltamParaSubir, nivelDe, visibleStreak } from '@/game/progress';
+import { dayKey, faltamParaSubir, NIVEL_MAX, nivelDe, visibleStreak } from '@/game/progress';
 import { useProgress } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
+
+/** Atalho para testar as fases difíceis: aparece no modo de desenvolvimento e na versão web. */
+const MOSTRAR_MODO_TESTE = __DEV__ || Platform.OS === 'web';
+const FASE_FINAL = 'populares-4';
+
+function abrirFaseFinal() {
+  router.push({ pathname: '/lesson/[id]', params: { id: FASE_FINAL } });
+}
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -61,6 +69,37 @@ export default function ProfileScreen() {
         respectivos donos e são usados apenas para identificação. Fotos do Wikimedia Commons, sob licenças
         livres (veja os créditos).
       </Text>
+
+      {MOSTRAR_MODO_TESTE && (
+        <>
+          <Text style={styles.section}>MODO TESTE</Text>
+          <View style={styles.list}>
+            {p.backupTeste ? (
+              <>
+                <Row icon="flag-checkered" label="Abrir uma fase final" onPress={abrirFaseFinal} />
+                <Row
+                  icon="backup-restore"
+                  label="Sair do modo teste e voltar ao meu progresso"
+                  onPress={p.sairModoTeste}
+                />
+              </>
+            ) : (
+              <Row
+                icon="flask-outline"
+                label="Ir para as fases finais (nível máximo)"
+                onPress={() => {
+                  p.entrarModoTeste();
+                  abrirFaseFinal();
+                }}
+              />
+            )}
+          </View>
+          <Text style={styles.disclaimer}>
+            Libera a última etapa de todas as rotas no nível {NIVEL_MAX}: recortes mais fechados e sem dicas de
+            afastar. Seu progresso de verdade fica guardado e volta quando você sair do modo teste.
+          </Text>
+        </>
+      )}
 
       <Text style={styles.section}>DADOS</Text>
       {confirmReset ? (

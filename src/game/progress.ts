@@ -61,3 +61,13 @@ export function faltamParaSubir(concluidas: number): number | null {
   const n = nivelDe(concluidas);
   return n >= NIVEL_MAX ? null : NIVEIS[n] - concluidas;
 }
+
+/**
+ * Modo teste: marca como concluídas todas as etapas menos os desafios finais de cada rota.
+ * Resultado: nível máximo e a última etapa de toda rota liberada.
+ */
+export function etapasDeTeste(): Record<string, { stars: number; bestAccuracy: number; plays: number }> {
+  return Object.fromEntries(
+    LESSONS.filter((l) => l.level !== 'challenge').map((l) => [l.id, { stars: 2, bestAccuracy: 0.8, plays: 1 }]),
+  );
+}

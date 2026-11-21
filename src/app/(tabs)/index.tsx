@@ -23,7 +23,7 @@ import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
 
 export default function RoadScreen() {
   const insets = useSafeAreaInsets();
-  const { km, streak, lastPlayed, garage, todayKm, lessons } = useProgress();
+  const { km, streak, lastPlayed, garage, todayKm, lessons, backupTeste } = useProgress();
   const nivel = nivelDe(Object.keys(lessons).length);
   const shownStreak = visibleStreak(streak, lastPlayed, dayKey());
   const today = todayKmOf(todayKm);
@@ -46,6 +46,7 @@ export default function RoadScreen() {
             value={`${Object.keys(garage).length}/${CARS.length}`}
             label="Carros na garagem"
           />
+          {backupTeste && <StatPill icon="flask-outline" color={colors.fire} value="Teste" label="Modo teste ligado" />}
         </View>
       </View>
 
