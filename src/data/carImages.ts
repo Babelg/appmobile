@@ -1,0 +1,28 @@
+// Gerado por scripts/fetch_car_images.py — não edite à mão.
+
+/** carId -> asset da foto (o require() devolve o id do asset no Metro). */
+export const CAR_IMAGES: Record<string, number> = {
+  fusca: require('../../assets/cars/fusca.jpg'),
+  kombi: require('../../assets/cars/kombi.jpg'),
+  opala: require('../../assets/cars/opala.jpg'),
+  brasilia: require('../../assets/cars/brasilia.jpg'),
+  gol: require('../../assets/cars/gol.jpg'),
+  uno: require('../../assets/cars/uno.jpg'),
+  p911: require('../../assets/cars/p911.jpg'),
+  sl300: require('../../assets/cars/sl300.jpg'),
+  golfgti: require('../../assets/cars/golfgti.jpg'),
+  m3e30: require('../../assets/cars/m3e30.jpg'),
+  quattro: require('../../assets/cars/quattro.jpg'),
+  gclass: require('../../assets/cars/gclass.jpg'),
+  supra: require('../../assets/cars/supra.jpg'),
+  r34: require('../../assets/cars/r34.jpg'),
+  mx5: require('../../assets/cars/mx5.jpg'),
+  ae86: require('../../assets/cars/ae86.jpg'),
+  nsx: require('../../assets/cars/nsx.jpg'),
+  evo: require('../../assets/cars/evo.jpg'),
+  mustang: require('../../assets/cars/mustang.jpg'),
+  camaro: require('../../assets/cars/camaro.jpg'),
+  charger: require('../../assets/cars/charger.jpg'),
+  corvette: require('../../assets/cars/corvette.jpg'),
+  belair: require('../../assets/cars/belair.jpg'),
+};

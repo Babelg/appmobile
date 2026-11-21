@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Qual é a Nave?",
+    "slug": "qual-e-a-nave",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "qualeanave",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0E1115",
+    "ios": {
+      "bundleIdentifier": "com.babelg.qualeanave",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.babelg.qualeanave",
+      "adaptiveIcon": {
+        "backgroundColor": "#0E1115",
+        "foregroundImage": "./assets/images/icon.png"
+      }
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0E1115",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 160
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
