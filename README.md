@@ -8,9 +8,11 @@ para ver mais, mas ganha menos km. Depois de cada resposta, aparece uma curiosid
 
 ## O que já tem
 
-- **Estrada** (tela inicial): 7 rotas temáticas (Populares de Hoje; Sedãs, SUVs e Picapes;
-  Clássicos do Brasil; Alemanha; Japão; EUA; Itália), cada uma com 4 etapas: duas de
-  apresentação, uma revisão e um "desafio do zoom".
+- **Estrada** (tela inicial): 14 rotas temáticas, todas liberadas desde o começo, com atalhos
+  no topo para pular direto para cada uma: Populares de Hoje, SUVs Compactos, Hatches e Sedãs,
+  Queridinhos de Agora, Picapes, SUVs Médios e Grandes, Elétricos e Chineses, Anos 90 e 2000,
+  Clássicos do Brasil, Nacionais dos Anos 70 e 80, Alemanha, Japão, EUA e Itália. Cada rota tem
+  4 etapas (duas de apresentação, uma revisão e um "desafio do zoom"), liberadas em ordem.
 - **Lição**: perguntas de marca, de modelo, curiosidades e década de lançamento. Os erros voltam
   no fim da etapa para fixar. Feedback com vibração (haptics) no iPhone.
 - **Progresso**: km rodados (pontos), meta diária, sequência de dias, estrelas por etapa.
@@ -19,7 +21,8 @@ para ver mais, mas ganha menos km. Depois de cada resposta, aparece uma curiosid
   (com versão, ano-modelo e mês de referência), ano, combustível e uma curiosidade.
 - **Garagem**: cada carro que você identifica fica guardado, com ficha técnica e curiosidades.
 - **Créditos** das fotos (exigido pelas licenças Creative Commons).
-- 42 carros com fotos do Wikimedia Commons, 84 perguntas de curiosidade e ~140 curiosidades.
+- 84 carros com fotos do Wikimedia Commons, 168 perguntas de curiosidade e ~270 curiosidades.
+  Valor FIPE real para 58 deles (os importados antigos não constam na tabela).
 
 ## Rodando
 
@@ -42,7 +45,7 @@ src/app/            telas (Expo Router: cada arquivo é uma rota)
   lesson/[id].tsx   Lição
   car/[id].tsx      Ficha do carro
   credits.tsx       Créditos das fotos
-src/data/           conteúdo: carros, rotas, créditos, mapa de imagens
+src/data/           conteúdo: carros (cars.ts e carsMore.ts), rotas, créditos, FIPE, imagens
 src/game/           lógica pura (gera perguntas, pontuação, sequência) + testes
 src/store/          progresso do jogador (zustand + AsyncStorage)
 scripts/            baixa e recorta as fotos do Wikimedia Commons e busca os valores FIPE

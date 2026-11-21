@@ -32,13 +32,13 @@ export function visibleStreak(streak: number, lastPlayed: string | null, today: 
   return daysBetween(lastPlayed, today) <= 1 ? streak : 0;
 }
 
+/**
+ * Todas as rotas começam liberadas; dentro de cada rota, uma etapa libera a próxima.
+ */
 export function isLessonUnlocked(lessonId: string, completed: Record<string, unknown>): boolean {
-  const index = LESSONS.findIndex((l) => l.id === lessonId);
-  if (index <= 0) return index === 0;
-  return LESSONS[index - 1].id in completed;
-}
-
-/** Próxima etapa a jogar (primeira não concluída). */
-export function currentLessonId(completed: Record<string, unknown>): string | null {
-  return LESSONS.find((l) => !(l.id in completed))?.id ?? null;
+  const lesson = LESSONS.find((l) => l.id === lessonId);
+  if (!lesson) return false;
+  const routeLessons = LESSONS.filter((l) => l.route === lesson.route);
+  const index = routeLessons.indexOf(lesson);
+  return index === 0 || routeLessons[index - 1].id in completed;
 }

@@ -2,7 +2,8 @@
 """
 Busca o valor da Tabela FIPE de cada carro e salva em src/data/fipe.json.
 
-Uso:  python3 scripts/fetch_fipe.py        (ou: npm run fipe)
+Uso:  python3 scripts/fetch_fipe.py                 (ou: npm run fipe) — atualiza todos
+      python3 scripts/fetch_fipe.py polo,onix       — atualiza só esses
 
 Entrada: scripts/fipe.json
   { "<carId>": { "brand": <código da marca na FIPE>, "model": "<nome exato do modelo na FIPE>",
@@ -13,6 +14,7 @@ A tabela muda todo mês; rode de novo para atualizar. O app mostra o mês de ref
 """
 import json
 import re
+import sys
 import time
 import urllib.request
 from pathlib import Path
@@ -38,9 +40,12 @@ def norm(s: str) -> str:
 
 def main() -> None:
     config = json.loads(CONFIG.read_text())
+    only = set(sys.argv[1].split(",")) if len(sys.argv) > 1 else None
     models_cache: dict[int, list] = {}
-    out = {}
+    out = json.loads(OUT.read_text()) if only and OUT.exists() else {}
     for car_id, entry in config.items():
+        if only and car_id not in only:
+            continue
         brand = entry["brand"]
         if brand not in models_cache:
             models_cache[brand] = get(f"{API}/{brand}/models")
@@ -64,6 +69,7 @@ def main() -> None:
             "ref": info["referenceMonth"].strip(),
         }
         print(f"{car_id:8s} {out[car_id]['price']:>16s}  {out[car_id]['year']}  {out[car_id]['model']}", flush=True)
+    out = {k: out[k] for k in config if k in out}
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n")
     print(f"{len(out)} carros, referência: {next(iter(out.values()))['ref']}")
 

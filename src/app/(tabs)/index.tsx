@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
-import { useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View, type ScrollViewInstance } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,17 +14,18 @@ import { Icon, ProgressBar, StatPill, Stars } from '@/components/ui';
 import { CARS } from '@/data/cars';
 import { lessonsOfRoute, ROUTES } from '@/data/routes';
 import type { Lesson, Route } from '@/data/types';
-import { currentLessonId, dayKey, isLessonUnlocked, visibleStreak } from '@/game/progress';
+import { dayKey, isLessonUnlocked, visibleStreak } from '@/game/progress';
 import { buzz } from '@/lib/haptics';
 import { DAILY_GOAL_KM, todayKmOf, useProgress } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
 
 export default function RoadScreen() {
   const insets = useSafeAreaInsets();
-  const { km, streak, lastPlayed, lessons, garage, todayKm } = useProgress();
+  const { km, streak, lastPlayed, garage, todayKm } = useProgress();
   const shownStreak = visibleStreak(streak, lastPlayed, dayKey());
   const today = todayKmOf(todayKm);
-  const current = currentLessonId(lessons);
+  const scrollRef = useRef<ScrollViewInstance>(null);
+  const routeY = useRef<Record<string, number>>({});
 
   return (
     <View style={[styles.screen, { paddingTop: insets.top }]}>
@@ -44,7 +45,35 @@ export default function RoadScreen() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.chipsBar}
+        contentContainerStyle={styles.chips}>
+        {ROUTES.map((route) => {
+          const owned = route.carIds.filter((id) => id in garage).length;
+          return (
+            <Pressable
+              key={route.id}
+              accessibilityRole="button"
+              accessibilityLabel={`Ir para a rota ${route.title}`}
+              onPress={() => {
+                buzz('tap');
+                scrollRef.current?.scrollTo({ y: Math.max(0, (routeY.current[route.id] ?? 0) - space(2)), animated: true });
+              }}
+              style={({ pressed }) => [styles.chip, { borderColor: route.color }, pressed && { opacity: 0.7 }]}>
+              <Text style={styles.chipText}>
+                {route.flag} {route.title}
+              </Text>
+              <Text style={[styles.chipCount, { color: route.color }]}>
+                {owned}/{route.carIds.length}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      <ScrollView ref={scrollRef} contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.goal}>
           <View style={styles.goalTop}>
             <Text style={styles.goalTitle}>Meta do dia</Text>
@@ -56,7 +85,13 @@ export default function RoadScreen() {
         </View>
 
         {ROUTES.map((route, i) => (
-          <RouteSection key={route.id} route={route} number={i + 1} current={current} />
+          <View
+            key={route.id}
+            onLayout={(e) => {
+              routeY.current[route.id] = e.nativeEvent.layout.y;
+            }}>
+            <RouteSection route={route} number={i + 1} />
+          </View>
         ))}
 
         <View style={styles.endSign}>
@@ -68,8 +103,9 @@ export default function RoadScreen() {
   );
 }
 
-function RouteSection({ route, number, current }: { route: Route; number: number; current: string | null }) {
+function RouteSection({ route, number }: { route: Route; number: number }) {
   const completed = useProgress((s) => s.lessons);
+  const owned = useProgress((s) => route.carIds.filter((id) => id in s.garage).length);
   const routeLessons = lessonsOfRoute(route.id);
   const locked = !isLessonUnlocked(routeLessons[0].id, completed);
 
@@ -83,6 +119,9 @@ function RouteSection({ route, number, current }: { route: Route; number: number
           </Text>
           <Text style={[styles.signTitle, locked && { color: colors.textDim }]}>{route.title}</Text>
           <Text style={[styles.signSubtitle, locked && { color: colors.textFaint }]}>{route.subtitle}</Text>
+          <Text style={styles.signCount}>
+            {owned}/{route.carIds.length} carros na garagem
+          </Text>
         </View>
       </View>
 
@@ -97,11 +136,9 @@ function RouteSection({ route, number, current }: { route: Route; number: number
             state={
               lesson.id in completed
                 ? 'done'
-                : lesson.id === current
+                : isLessonUnlocked(lesson.id, completed)
                   ? 'current'
-                  : isLessonUnlocked(lesson.id, completed)
-                    ? 'open'
-                    : 'locked'
+                  : 'locked'
             }
             stars={completed[lesson.id]?.stars ?? 0}
           />
@@ -231,6 +268,20 @@ const styles = StyleSheet.create({
     maxWidth: MAX_CONTENT_WIDTH,
     alignSelf: 'center',
   },
+  chipsBar: { flexGrow: 0, flexShrink: 0, borderBottomWidth: 1, borderBottomColor: colors.border },
+  chips: { gap: space(2), paddingHorizontal: space(4), paddingVertical: space(3) },
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space(2),
+    borderWidth: 1.5,
+    borderRadius: radius.pill,
+    paddingHorizontal: space(3),
+    paddingVertical: space(1.5),
+    backgroundColor: colors.surface,
+  },
+  chipText: { color: colors.text, fontWeight: '700', fontSize: 13 },
+  chipCount: { fontWeight: '800', fontSize: 12, fontVariant: ['tabular-nums'] },
   goal: {
     backgroundColor: colors.surface,
     borderRadius: radius.md,
@@ -256,6 +307,7 @@ const styles = StyleSheet.create({
   signKicker: { color: 'rgba(255,255,255,0.85)', fontWeight: '800', fontSize: 12, letterSpacing: 1.2 },
   signTitle: { color: '#FFFFFF', fontWeight: '900', fontSize: 22 },
   signSubtitle: { color: 'rgba(255,255,255,0.85)', fontWeight: '600', fontSize: 14 },
+  signCount: { color: '#FFFFFF', fontWeight: '800', fontSize: 12, marginTop: space(1), letterSpacing: 0.4 },
   road: { paddingTop: space(2) },
   stopRow: { flexDirection: 'row', alignItems: 'stretch' },
   side: { flex: 1, justifyContent: 'center' },

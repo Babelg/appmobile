@@ -1,6 +1,6 @@
 import { LESSONS } from '@/data/routes';
 
-import { currentLessonId, dayKey, daysBetween, isLessonUnlocked, nextStreak, visibleStreak } from '../progress';
+import { dayKey, daysBetween, isLessonUnlocked, nextStreak, visibleStreak } from '../progress';
 
 describe('datas', () => {
   it('dayKey usa a data local', () => {
@@ -28,16 +28,21 @@ describe('sequência de dias', () => {
 });
 
 describe('desbloqueio', () => {
-  it('só a primeira etapa começa liberada', () => {
-    expect(isLessonUnlocked(LESSONS[0].id, {})).toBe(true);
-    expect(isLessonUnlocked(LESSONS[1].id, {})).toBe(false);
+  const byRoute = (route: string) => LESSONS.filter((l) => l.route === route);
+
+  it('a primeira etapa de toda rota começa liberada', () => {
+    for (const route of new Set(LESSONS.map((l) => l.route))) {
+      const [first, second] = byRoute(route);
+      expect(isLessonUnlocked(first.id, {})).toBe(true);
+      expect(isLessonUnlocked(second.id, {})).toBe(false);
+    }
   });
 
-  it('concluir uma etapa libera a próxima', () => {
-    const done = { [LESSONS[0].id]: {} };
-    expect(isLessonUnlocked(LESSONS[1].id, done)).toBe(true);
-    expect(isLessonUnlocked(LESSONS[2].id, done)).toBe(false);
-    expect(currentLessonId(done)).toBe(LESSONS[1].id);
+  it('concluir uma etapa libera só a próxima da mesma rota', () => {
+    const [a, b, c] = byRoute(LESSONS[0].route);
+    const done = { [a.id]: {} };
+    expect(isLessonUnlocked(b.id, done)).toBe(true);
+    expect(isLessonUnlocked(c.id, done)).toBe(false);
   });
 
   it('etapa inexistente fica bloqueada', () => {

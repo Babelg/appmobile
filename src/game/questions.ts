@@ -127,11 +127,11 @@ function decadeQ(car: Car, rng: Rng): Question {
     key: `decade-${car.id}`,
     kind: 'decade',
     carId: car.id,
-    prompt: 'Em que década este modelo foi lançado?',
+    prompt: 'Em que década foi lançada a geração deste carro?',
     crop: null,
     options: decades.map((d) => ({ label: decadeLabel(d) })),
     answer: decades.indexOf(decade),
-    fact: `Lançado em ${car.launch}. ${pick(car.facts, rng)}`,
+    fact: `Esta geração foi lançada em ${car.launch}. ${pick(car.facts, rng)}`,
   };
 }
 

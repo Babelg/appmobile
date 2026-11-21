@@ -1,4 +1,18 @@
-export type RouteId = 'populares' | 'utilitarios' | 'brasil' | 'alemanha' | 'japao' | 'eua' | 'italia';
+export type RouteId =
+  | 'populares'
+  | 'suvs'
+  | 'sedas'
+  | 'utilitarios'
+  | 'picapes'
+  | 'suvsmedios'
+  | 'eletricos'
+  | 'anos2000'
+  | 'brasil'
+  | 'nacionais'
+  | 'alemanha'
+  | 'japao'
+  | 'eua'
+  | 'italia';
 
 /**
  * Ponto de foco de um "recorte" da foto. As fotos são sempre 4:3;
@@ -21,7 +35,7 @@ export type Car = {
   nickname?: string;
   /** Período de produção mostrado na ficha. */
   years: string;
-  /** Ano de lançamento do modelo (usado nas perguntas de década). */
+  /** Ano de lançamento da geração da foto (usado nas perguntas de década). */
   launch: number;
   country: string;
   /** Combustível do modelo, como aparece na ficha (ex.: "Flex", "Gasolina ou álcool"). */

@@ -134,5 +134,333 @@
     "fuel": "Gasolina",
     "code": "004104-1",
     "ref": "novembro de 2026"
+  },
+  "tracker": {
+    "price": "R$ 130.725,00",
+    "model": "TRACKER LT 1.0 Turbo 12V Flex Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "004522-5",
+    "ref": "novembro de 2026"
+  },
+  "creta": {
+    "price": "R$ 131.511,00",
+    "model": "Creta Comfort 1.0 TB 12V Flex Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "015200-5",
+    "ref": "novembro de 2026"
+  },
+  "nivus": {
+    "price": "R$ 143.919,00",
+    "model": "Nivus Highline 1.0 200 TSI Flex Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "005526-3",
+    "ref": "novembro de 2026"
+  },
+  "kicks": {
+    "price": "R$ 104.158,00",
+    "model": "KICKS Advance 1.6 16V Flex Aut.",
+    "year": 2024,
+    "fuel": "Flex",
+    "code": "023180-0",
+    "ref": "novembro de 2026"
+  },
+  "renegade": {
+    "price": "R$ 130.367,00",
+    "model": "Renegade Long. T270 1.3 TB 4x2 Flex Aut.",
+    "year": 2026,
+    "fuel": "Flex",
+    "code": "017088-7",
+    "ref": "novembro de 2026"
+  },
+  "pulse": {
+    "price": "R$ 102.398,00",
+    "model": "PULSE AUDACE 1.0 Turbo 200 Flex Aut.",
+    "year": 2025,
+    "fuel": "Flex",
+    "code": "001542-3",
+    "ref": "novembro de 2026"
+  },
+  "toro": {
+    "price": "R$ 158.713,00",
+    "model": "Toro Freedom 1.3 T270 4x2 Flex Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "001538-5",
+    "ref": "novembro de 2026"
+  },
+  "ranger": {
+    "price": "R$ 296.538,00",
+    "model": "Ranger Limited 3.0 V6 4x4 CD TB Die. Aut",
+    "year": 2026,
+    "fuel": "Diesel",
+    "code": "003497-5",
+    "ref": "novembro de 2026"
+  },
+  "s10": {
+    "price": "R$ 264.519,00",
+    "model": "S10 Pick-Up LTZ 2.8 TDI 4x4 CD Dies.Aut",
+    "year": 2027,
+    "fuel": "Diesel",
+    "code": "004397-4",
+    "ref": "novembro de 2026"
+  },
+  "montana": {
+    "price": "R$ 138.490,00",
+    "model": "MONTANA LTZ 1.2 Turbo Flex 12V 4p Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "004541-1",
+    "ref": "novembro de 2026"
+  },
+  "amarok": {
+    "price": "R$ 322.332,00",
+    "model": "AMAROK Highline CD 3.0 4x4 TB Dies. Aut.",
+    "year": 2026,
+    "fuel": "Diesel",
+    "code": "005483-6",
+    "ref": "novembro de 2026"
+  },
+  "ram": {
+    "price": "R$ 478.503,00",
+    "model": "2500 LARAMIE 6.7 TDI CD 4x4 Diesel",
+    "year": 2026,
+    "fuel": "Diesel",
+    "code": "083001-1",
+    "ref": "novembro de 2026"
+  },
+  "civic": {
+    "price": "R$ 233.876,00",
+    "model": "Civic Sed.Touring 2.0 16V Aut. (Híbrido)",
+    "year": 2026,
+    "fuel": "Híbrido",
+    "code": "014112-7",
+    "ref": "novembro de 2026"
+  },
+  "city": {
+    "price": "R$ 125.632,00",
+    "model": "CITY Sedan EX 1.5 Flex 16V 4p Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "014061-9",
+    "ref": "novembro de 2026"
+  },
+  "virtus": {
+    "price": "R$ 125.096,00",
+    "model": "VIRTUS Highline 200 TSI 1.0 Flex 12V Aut",
+    "year": 2026,
+    "fuel": "Flex",
+    "code": "005484-4",
+    "ref": "novembro de 2026"
+  },
+  "cronos": {
+    "price": "R$ 95.528,00",
+    "model": "CRONOS DRIVE 1.3 8V Flex",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "001505-9",
+    "ref": "novembro de 2026"
+  },
+  "p208": {
+    "price": "R$ 111.212,00",
+    "model": "208 Allure 1.0 Turbo 200 5p Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "024286-1",
+    "ref": "novembro de 2026"
+  },
+  "c3": {
+    "price": "R$ 75.628,00",
+    "model": "C3 Feel 1.0 Flex 6V 5p Mec.",
+    "year": 2026,
+    "fuel": "Flex",
+    "code": "011224-0",
+    "ref": "novembro de 2026"
+  },
+  "corollacross": {
+    "price": "R$ 174.932,00",
+    "model": "Corolla Cross XRE 2.0 16V Flex Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "002203-9",
+    "ref": "novembro de 2026"
+  },
+  "hrv": {
+    "price": "R$ 159.061,00",
+    "model": "HR-V EXL 1.5 Flex Sensing 16V 5p Aut.",
+    "year": 2027,
+    "fuel": "Flex",
+    "code": "014110-0",
+    "ref": "novembro de 2026"
+  },
+  "commander": {
+    "price": "R$ 187.316,00",
+    "model": "Commander Limited T270 1.3 TB Flex Aut.",
+    "year": 2026,
+    "fuel": "Flex",
+    "code": "017081-0",
+    "ref": "novembro de 2026"
+  },
+  "taos": {
+    "price": "R$ 182.734,00",
+    "model": "TAOS Highline 1.4 250 TSI Flex Aut.",
+    "year": 2026,
+    "fuel": "Flex",
+    "code": "005528-0",
+    "ref": "novembro de 2026"
+  },
+  "sw4": {
+    "price": "R$ 358.186,00",
+    "model": "Hilux SW4 SRX Plat. 4x4 2.8 TB Die. Aut.",
+    "year": 2026,
+    "fuel": "Diesel",
+    "code": "002214-4",
+    "ref": "novembro de 2026"
+  },
+  "rav4": {
+    "price": "R$ 322.025,00",
+    "model": "RAV4 2.5 SX Connect 4x4 Aut. (Híbrido)",
+    "year": 2026,
+    "fuel": "Híbrido",
+    "code": "002196-2",
+    "ref": "novembro de 2026"
+  },
+  "dolphinmini": {
+    "price": "R$ 115.975,00",
+    "model": "Dolphin Mini GS (Elétrico)",
+    "year": 2027,
+    "fuel": "Elétrico",
+    "code": "095010-6",
+    "ref": "novembro de 2026"
+  },
+  "dolphin": {
+    "price": "R$ 134.547,00",
+    "model": "Dolphin EV GS (Elétrico)",
+    "year": 2027,
+    "fuel": "Elétrico",
+    "code": "095007-6",
+    "ref": "novembro de 2026"
+  },
+  "songplus": {
+    "price": "R$ 234.916,00",
+    "model": "Song Plus Premium 1.5 16V Aut. (Hibrido)",
+    "year": 2026,
+    "fuel": "Híbrido",
+    "code": "095017-3",
+    "ref": "novembro de 2026"
+  },
+  "seal": {
+    "price": "R$ 272.372,00",
+    "model": "Seal (Elétrico)",
+    "year": 2027,
+    "fuel": "Elétrico",
+    "code": "095008-4",
+    "ref": "novembro de 2026"
+  },
+  "haval": {
+    "price": "R$ 158.768,00",
+    "model": "Haval H6 1.5 (Hibrido)",
+    "year": 2024,
+    "fuel": "Híbrido",
+    "code": "096005-5",
+    "ref": "novembro de 2026"
+  },
+  "tiggo7": {
+    "price": "R$ 166.055,00",
+    "model": "Tiggo 7 Pro Max Drive 1.6 Turbo 16V Aut.",
+    "year": 2027,
+    "fuel": "Gasolina",
+    "code": "093011-3",
+    "ref": "novembro de 2026"
+  },
+  "celta": {
+    "price": "R$ 32.993,00",
+    "model": "Celta Life/ LS 1.0 MPFI 8V FlexPower 5p",
+    "year": 2014,
+    "fuel": "Flex",
+    "code": "004319-2",
+    "ref": "novembro de 2026"
+  },
+  "corsa": {
+    "price": "R$ 13.698,00",
+    "model": "Corsa Wind 1.0 MPF/MilleniumI/ EFI 4p",
+    "year": 2002,
+    "fuel": "Gasolina",
+    "code": "004173-4",
+    "ref": "novembro de 2026"
+  },
+  "palio": {
+    "price": "R$ 31.008,00",
+    "model": "Palio ELX 1.0 Fire/30 Anos F. Flex 8V 4p",
+    "year": 2011,
+    "fuel": "Gasolina",
+    "code": "001207-6",
+    "ref": "novembro de 2026"
+  },
+  "fox": {
+    "price": "R$ 40.480,00",
+    "model": "Fox 1.0 Mi Total Flex 8V 5p",
+    "year": 2014,
+    "fuel": "Flex",
+    "code": "005308-2",
+    "ref": "novembro de 2026"
+  },
+  "ka": {
+    "price": "R$ 13.263,00",
+    "model": "Ka 1.0i 3p",
+    "year": 2007,
+    "fuel": "Gasolina",
+    "code": "003018-0",
+    "ref": "novembro de 2026"
+  },
+  "ecosport": {
+    "price": "R$ 75.463,00",
+    "model": "EcoSport FREESTYLE 1.5 12V Flex 5p Mec.",
+    "year": 2021,
+    "fuel": "Flex",
+    "code": "003439-8",
+    "ref": "novembro de 2026"
+  },
+  "chevette": {
+    "price": "R$ 23.161,00",
+    "model": "Chevette L / SL / SL/e / DL / SE 1.6",
+    "year": 1993,
+    "fuel": "Gasolina",
+    "code": "004030-4",
+    "ref": "novembro de 2026"
+  },
+  "corcel": {
+    "price": "R$ 3.598,00",
+    "model": "Corcel II GL/GT",
+    "year": 1986,
+    "fuel": "Gasolina",
+    "code": "003129-1",
+    "ref": "novembro de 2026"
+  },
+  "fiat147": {
+    "price": "R$ 6.155,00",
+    "model": "147 C/ CL",
+    "year": 1987,
+    "fuel": "Gasolina",
+    "code": "001124-0",
+    "ref": "novembro de 2026"
+  },
+  "santana": {
+    "price": "R$ 30.519,00",
+    "model": "Santana Exclusiv 2.0 Mi/ Executivo 2.0i",
+    "year": 1999,
+    "fuel": "Gasolina",
+    "code": "005019-9",
+    "ref": "novembro de 2026"
+  },
+  "passat": {
+    "price": "R$ 8.691,00",
+    "model": "Passat L/LS/LSe/GL/GLS/TS/Fla/Vill/Plus",
+    "year": 1989,
+    "fuel": "Gasolina",
+    "code": "005101-2",
+    "ref": "novembro de 2026"
   }
 }

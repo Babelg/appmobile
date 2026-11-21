@@ -1,3 +1,4 @@
+import { MORE_CARS } from './carsMore';
 import type { Car } from './types';
 
 /**
@@ -6,7 +7,7 @@ import type { Car } from './types';
  * 2. Adicione a entrada aqui (crops apontam para detalhes da foto 4:3).
  * 3. Inclua o id em uma rota em `routes.ts`.
  */
-export const CARS: Car[] = [
+const BASE_CARS: Car[] = [
   // ───────────── Populares de Hoje ─────────────
   {
     id: 'polo',
@@ -71,7 +72,7 @@ export const CARS: Car[] = [
     make: 'Hyundai',
     model: 'HB20',
     years: 'desde 2012',
-    launch: 2012,
+    launch: 2019,
     country: 'Coreia do Sul',
     fuel: 'Flex',
     route: 'populares',
@@ -1227,6 +1228,8 @@ export const CARS: Car[] = [
     ],
   },
 ];
+
+export const CARS: Car[] = [...BASE_CARS, ...MORE_CARS];
 
 export const CAR_BY_ID: Record<string, Car> = Object.fromEntries(CARS.map((c) => [c.id, c]));
 
