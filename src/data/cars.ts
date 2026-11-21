@@ -248,7 +248,7 @@ export const CARS: Car[] = [
     launch: 1986,
     country: 'Alemanha',
     route: 'alemanha',
-    crops: [{ x: 0.4, y: 0.57, zoom: 3.4 }, { x: 0.85, y: 0.62, zoom: 3 }],
+    crops: [{ x: 0.2, y: 0.61, zoom: 3.4 }, { x: 0.6, y: 0.57, zoom: 3.2 }],
     facts: [
       'Foi criado para homologar a BMW nas corridas de turismo do Grupo A.',
       'Virou um dos carros de turismo mais vitoriosos da história, com títulos no DTM e no Mundial de Turismo de 1987.',
@@ -303,7 +303,7 @@ export const CARS: Car[] = [
     launch: 1980,
     country: 'Alemanha',
     route: 'alemanha',
-    crops: [{ x: 0.5, y: 0.52, zoom: 3 }, { x: 0.78, y: 0.45, zoom: 2.6 }],
+    crops: [{ x: 0.5, y: 0.52, zoom: 3 }, { x: 0.4, y: 0.55, zoom: 2.6 }],
     facts: [
       'Lançado em 1980, popularizou a tração integral permanente em carros esportivos.',
       'Revolucionou os ralis: depois dele, praticamente todo carro vencedor passou a ter tração nas quatro rodas.',
@@ -638,7 +638,7 @@ export const CARS: Car[] = [
     launch: 1970,
     country: 'EUA',
     route: 'eua',
-    crops: [],
+    crops: [{ x: 0.45, y: 0.4, zoom: 2.8 }, { x: 0.72, y: 0.55, zoom: 3 }],
     facts: [
       'Ficou famoso como o carro preto e dourado de Burt Reynolds em "Agarra-me se Puderes" (1977).',
       'O enorme pássaro de fogo pintado no capô ganhou o apelido de "screaming chicken" (galinha gritando).',
@@ -695,7 +695,7 @@ export const CARS: Car[] = [
     launch: 1987,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.6, y: 0.62, zoom: 3.4 }, { x: 0.3, y: 0.55, zoom: 2.8 }],
     facts: [
       'Comemorou os 40 anos da Ferrari e foi o último carro aprovado pessoalmente por Enzo Ferrari.',
       'Foi o primeiro carro de produção a passar de 320 km/h.',
@@ -722,7 +722,7 @@ export const CARS: Car[] = [
     launch: 1974,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.35, y: 0.3, zoom: 2.6 }, { x: 0.75, y: 0.6, zoom: 2.8 }],
     facts: [
       'O nome vem de uma expressão de espanto do dialeto piemontês.',
       'Desenhado por Marcello Gandini, popularizou as portas tesoura, que abrem para cima.',
@@ -751,7 +751,7 @@ export const CARS: Car[] = [
     launch: 1957,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.5, y: 0.55, zoom: 3.4 }, { x: 0.25, y: 0.58, zoom: 2.8 }],
     facts: [
       'Projetado por Dante Giacosa, motorizou a Itália do pós-guerra.',
       'Tinha motor traseiro de 2 cilindros refrigerado a ar, com cerca de meio litro. Daí o nome 500.',
@@ -778,7 +778,7 @@ export const CARS: Car[] = [
     launch: 1966,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.92, y: 0.5, zoom: 3.4 }, { x: 0.6, y: 0.5, zoom: 2.6 }],
     facts: [
       'É considerado o primeiro superesportivo de rua com motor central.',
       'O nome homenageia Eduardo Miura, criador espanhol de touros de tourada.',
@@ -806,7 +806,7 @@ export const CARS: Car[] = [
     launch: 1984,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.45, y: 0.7, zoom: 3.2 }, { x: 0.88, y: 0.5, zoom: 2.8 }],
     facts: [
       '"Testa rossa" significa "cabeça vermelha", por causa das tampas de válvulas pintadas de vermelho.',
       'As grelhas laterais, apelidadas de "ralador de queijo", levam ar aos radiadores.',
@@ -833,7 +833,7 @@ export const CARS: Car[] = [
     launch: 1987,
     country: 'Itália',
     route: 'italia',
-    crops: [],
+    crops: [{ x: 0.5, y: 0.55, zoom: 3 }, { x: 0.2, y: 0.57, zoom: 3 }],
     facts: [
       'Com o Delta, a Lancia ganhou seis títulos seguidos de construtores no Mundial de Rali (1987–1992), um recorde.',
       'Os para-lamas alargados abrigavam rodas e suspensões mais largas para o rali.',

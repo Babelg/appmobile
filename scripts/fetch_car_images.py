@@ -67,14 +67,14 @@ def strip_html(value: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(text)).strip()
 
 
-def image_info(title: str) -> dict:
+def image_info(title: str, width: int = FETCH_WIDTH) -> dict:
     params = {
         "action": "query",
         "format": "json",
         "titles": title,
         "prop": "imageinfo",
         "iiprop": "url|size|extmetadata",
-        "iiurlwidth": FETCH_WIDTH,
+        "iiurlwidth": width,
     }
     data = json.loads(get(API + "?" + urllib.parse.urlencode(params)))
     page = next(iter(data["query"]["pages"].values()))
@@ -105,6 +105,10 @@ def main() -> None:
         if out.exists() and car_id in credits and credits[car_id].get("file") == entry["file"] and not force:
             continue
         info = image_info(entry["file"])
+        if info["width"] <= FETCH_WIDTH:
+            # Original menor que 1920px: o Wikimedia limita downloads de originais,
+            # então pedimos a miniatura padrão de 1280px.
+            info = image_info(entry["file"], 1280)
         meta = info.get("extmetadata", {})
         cached = CACHE_DIR / f"{car_id}-{hashlib.md5(entry['file'].encode()).hexdigest()[:8]}.jpg"
         if cached.exists():

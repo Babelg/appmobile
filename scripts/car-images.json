@@ -90,9 +90,11 @@
     "file": "File:1970 Lamborghini Miura P400 S.jpg"
   },
   "testarossa": {
-    "file": "File:Ferrari Testarossa-20190419.jpg"
+    "file": "File:Ferrari Testarossa-20190419.jpg",
+    "centerX": 0.2
   },
   "delta": {
-    "file": "File:Lancia Delta, Motortreff Bella Italia 2024, Munich (P1190463).jpg"
+    "file": "File:Lancia Delta, Motortreff Bella Italia 2024, Munich (P1190463).jpg",
+    "centerX": 0.0
   }
 }

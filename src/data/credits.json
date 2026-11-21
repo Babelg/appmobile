@@ -139,13 +139,6 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:1969_Chevrolet_Camaro_SS_3.jpg"
   },
-  "corvette": {
-    "file": "File:Chevrolet Corvette C2 Sting Ray 2012-07-15 14-48-40.JPG",
-    "author": "Berthold Werner",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Chevrolet_Corvette_C2_Sting_Ray_2012-07-15_14-48-40.JPG"
-  },
   "charger": {
     "file": "File:1969 Dodge Charger R slash T photo-6.jpg",
     "author": "AlfvanBeem",
@@ -153,11 +146,67 @@
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "source": "https://commons.wikimedia.org/wiki/File:1969_Dodge_Charger_R_slash_T_photo-6.jpg"
   },
+  "corvette": {
+    "file": "File:Chevrolet Corvette C2 Sting Ray 2012-07-15 14-48-40.JPG",
+    "author": "Berthold Werner",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Chevrolet_Corvette_C2_Sting_Ray_2012-07-15_14-48-40.JPG"
+  },
   "belair": {
     "file": "File:Leimershof US-Car-Treffen 1957 Chevrolet Bel Air 4-Door Sedan-20220911-RM-161826.jpg",
     "author": "Ermell",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Leimershof_US-Car-Treffen_1957_Chevrolet_Bel_Air_4-Door_Sedan-20220911-RM-161826.jpg"
+  },
+  "transam": {
+    "file": "File:Pontiac Firebird Trans Am 1977 (7488273768).jpg",
+    "author": "nakhon100",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Pontiac_Firebird_Trans_Am_1977_(7488273768).jpg"
+  },
+  "fiat500": {
+    "file": "File:Fiat 500 F Berlina in Berlin (2009).jpg",
+    "author": "Jochen Teufel",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fiat_500_F_Berlina_in_Berlin_(2009).jpg"
+  },
+  "f40": {
+    "file": "File:Classic Gallery, GIMS 2024, Le Grand-Saconnex (GIMS0179).jpg",
+    "author": "Matti Blume",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Classic_Gallery,_GIMS_2024,_Le_Grand-Saconnex_(GIMS0179).jpg"
+  },
+  "countach": {
+    "file": "File:1984 Lamborghini Countach LP5000S.jpg",
+    "author": "MrWalkr",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:1984_Lamborghini_Countach_LP5000S.jpg"
+  },
+  "miura": {
+    "file": "File:1970 Lamborghini Miura P400 S.jpg",
+    "author": "Calreyn88",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:1970_Lamborghini_Miura_P400_S.jpg"
+  },
+  "testarossa": {
+    "file": "File:Ferrari Testarossa-20190419.jpg",
+    "author": "JoachimKohler-HB",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ferrari_Testarossa-20190419.jpg"
+  },
+  "delta": {
+    "file": "File:Lancia Delta, Motortreff Bella Italia 2024, Munich (P1190463).jpg",
+    "author": "Matti Blume",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Lancia_Delta,_Motortreff_Bella_Italia_2024,_Munich_(P1190463).jpg"
   }
 }

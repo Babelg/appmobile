@@ -25,4 +25,11 @@ export const CAR_IMAGES: Record<string, number> = {
   charger: require('../../assets/cars/charger.jpg'),
   corvette: require('../../assets/cars/corvette.jpg'),
   belair: require('../../assets/cars/belair.jpg'),
+  transam: require('../../assets/cars/transam.jpg'),
+  fiat500: require('../../assets/cars/fiat500.jpg'),
+  f40: require('../../assets/cars/f40.jpg'),
+  countach: require('../../assets/cars/countach.jpg'),
+  miura: require('../../assets/cars/miura.jpg'),
+  testarossa: require('../../assets/cars/testarossa.jpg'),
+  delta: require('../../assets/cars/delta.jpg'),
 };
