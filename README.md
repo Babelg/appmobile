@@ -75,8 +75,7 @@ fica no horizonte de uma estrada.
 ## Status
 
 ✅ **Protótipo jogável**, com todas as telas acima funcionando.
-O código está na branch
-[`claude/car-guessing-app-encqgz`](https://github.com/Babelg/appmobile/tree/claude/car-guessing-app-encqgz). O README de lá
+O código está no [pull request #1](https://github.com/Babelg/appmobile/pull/1). O README de lá
 explica como rodar, como adicionar carros e como publicar.
 
 ## Próximos passos
