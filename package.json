@@ -51,7 +51,8 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "images": "python3 scripts/fetch_car_images.py",
-    "fipe": "python3 scripts/fetch_fipe.py"
+    "fipe": "python3 scripts/fetch_fipe.py",
+    "espelho": "node scripts/espelho.mjs"
   },
   "private": true,
   "jest": {

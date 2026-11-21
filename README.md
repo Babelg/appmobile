@@ -35,6 +35,22 @@ npm run typecheck
 npm run lint
 ```
 
+### Modo espelho: acompanhar as mudanças ao vivo
+
+Para deixar o app aberto numa janela do computador e ver cada alteração enviada ao GitHub
+aparecer sozinha (em uns 10 segundos, sem recarregar a página):
+
+```bash
+npm run espelho                      # segue a branch atual
+npm run espelho -- desenvolvimento   # ou passa a seguir outra branch
+```
+
+O script abre o app no navegador e confere o GitHub a cada 10 s. Quando chega commit novo, ele
+atualiza a pasta e o Expo redesenha a tela. Se mudar `package.json` ou `app.json`, ele roda
+`npm install` e reinicia o Expo sozinho. O QR code que aparece no terminal abre o mesmo app no
+iPhone pelo Expo Go (mesma rede Wi-Fi), também atualizando ao vivo. Ele não mexe na pasta se
+houver arquivos alterados ou commits locais. Ctrl+C para sair.
+
 ## Estrutura
 
 ```
