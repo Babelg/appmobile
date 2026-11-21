@@ -1,4 +1,4 @@
-import * as WebBrowser from 'expo-web-browser';
+import { Link, type Href } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Icon } from '@/components/ui';
@@ -25,18 +25,19 @@ export default function CreditsScreen() {
       renderItem={({ item: [id, credit] }) => {
         const car = CAR_BY_ID[id];
         return (
-          <Pressable
-            accessibilityRole="link"
-            onPress={() => WebBrowser.openBrowserAsync(credit.source)}
-            style={({ pressed }) => [styles.item, pressed && { backgroundColor: colors.surfaceAlt }]}>
-            <View style={{ flex: 1, gap: 2 }}>
-              <Text style={styles.car}>{car ? `${car.make} ${car.model}` : id}</Text>
-              <Text style={styles.meta}>
-                {credit.author} · {credit.license}
-              </Text>
-            </View>
-            <Icon name="open-in-new" size={18} color={colors.textFaint} />
-          </Pressable>
+          <Link href={credit.source as Href} target="_blank" asChild>
+            <Pressable
+              accessibilityRole="link"
+              style={({ pressed }) => [styles.item, pressed && { backgroundColor: colors.surfaceAlt }]}>
+              <View style={{ flex: 1, gap: 2 }}>
+                <Text style={styles.car}>{car ? `${car.make} ${car.model}` : id}</Text>
+                <Text style={styles.meta}>
+                  {credit.author} · {credit.license}
+                </Text>
+              </View>
+              <Icon name="open-in-new" size={18} color={colors.textFaint} />
+            </Pressable>
+          </Link>
         );
       }}
     />

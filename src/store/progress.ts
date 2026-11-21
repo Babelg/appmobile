@@ -1,11 +1,32 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
 import { dayKey, nextStreak } from '@/game/progress';
 import { starsFor } from '@/game/questions';
 
 export const DAILY_GOAL_KM = 50;
+
+/** Armazenamento que nunca quebra o app: se o aparelho/navegador bloquear, só não salva. */
+const safeStorage: StateStorage = {
+  getItem: async (name) => {
+    try {
+      return await AsyncStorage.getItem(name);
+    } catch {
+      return null;
+    }
+  },
+  setItem: async (name, value) => {
+    try {
+      await AsyncStorage.setItem(name, value);
+    } catch {}
+  },
+  removeItem: async (name) => {
+    try {
+      await AsyncStorage.removeItem(name);
+    } catch {}
+  },
+};
 
 type LessonRecord = { stars: number; bestAccuracy: number; plays: number };
 type CarRecord = { collectedAt: string };
@@ -102,7 +123,7 @@ export const useProgress = create<ProgressState>()(
     }),
     {
       name: 'progress-v1',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safeStorage),
       partialize: ({ finishLesson, reset, ...data }) => data,
     },
   ),

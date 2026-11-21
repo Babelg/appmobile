@@ -1,5 +1,4 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import * as WebBrowser from 'expo-web-browser';
+import { Link, router, useLocalSearchParams, type Href } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -67,11 +66,9 @@ export default function CarScreen() {
             </View>
 
             {credit && (
-              <Pressable onPress={() => WebBrowser.openBrowserAsync(credit.source)}>
-                <Text style={styles.credit}>
-                  Foto: {credit.author} · {credit.license} · Wikimedia Commons (recortada)
-                </Text>
-              </Pressable>
+              <Link href={credit.source as Href} target="_blank" style={styles.credit}>
+                Foto: {credit.author} · {credit.license} · Wikimedia Commons (recortada)
+              </Link>
             )}
           </View>
         </View>
