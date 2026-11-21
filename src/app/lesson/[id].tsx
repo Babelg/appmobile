@@ -1,4 +1,3 @@
-import { useAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -26,6 +25,7 @@ import {
 } from '@/game/questions';
 import { mulberry32, pick } from '@/game/random';
 import { buzz } from '@/lib/haptics';
+import { useSons } from '@/lib/sons';
 import { useProgress, type LessonSummary } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
 
@@ -59,9 +59,7 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
   const [nivel] = useState(() => nivelDe(Object.keys(useProgress.getState().lessons).length));
   const dif = dificuldadeDoNivel(nivel);
   const [queue, setQueue] = useState<Question[]>(() => buildLesson(lesson, rng, nivel));
-  const somLigado = useProgress((s) => s.som);
-  const somAcerto = useAudioPlayer(require('../../../assets/sons/acerto.wav'));
-  const somErro = useAudioPlayer(require('../../../assets/sons/erro.wav'));
+  const tocarSom = useSons();
   const [index, setIndex] = useState(0);
   const [zoomStep, setZoomStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -89,7 +87,7 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
     const ok = i === q.answer;
     setPicked(i);
     buzz(ok ? 'success' : 'error');
-    if (somLigado) tocar(ok ? somAcerto : somErro);
+    tocarSom(ok);
     const km = ok ? kmForAnswer(q, { zoomOuts: zoomStep, retry: isRetry, level: lesson.level, nivel }) : 0;
     setTally((t) => ({
       km: t.km + km,
@@ -222,16 +220,6 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
       )}
     </View>
   );
-}
-
-/** Toca um efeito do começo (dá para repetir rápido sem esperar o anterior acabar). */
-function tocar(player: AudioPlayer) {
-  try {
-    player.seekTo(0).catch(() => {});
-    player.play();
-  } catch {
-    // sem áudio disponível: segue só com a vibração
-  }
 }
 
 /** Placa da pergunta de vendas: o ano em destaque, no estilo das placas da Estrada. */

@@ -13,6 +13,12 @@ para ver mais, mas ganha menos km. Depois de cada resposta, aparece uma curiosid
   Queridinhos de Agora, Picapes, SUVs Médios e Grandes, Elétricos e Chineses, Anos 90 e 2000,
   Clássicos do Brasil, Nacionais dos Anos 70 e 80, Alemanha, Japão, EUA e Itália. Cada rota tem
   4 etapas (duas de apresentação, uma revisão e um "desafio do zoom"), liberadas em ordem.
+- **Nave do Dia** (aba própria): um carro por dia, o mesmo para todo mundo. A câmera começa
+  colada num detalhe e você tem 6 palpites para acertar marca, modelo e ano de lançamento; a cada
+  palpite ela se afasta. Verde = certo (fica travado), amarelo = ano a até 3 anos, seta indica se o
+  carro é mais novo ou mais antigo. Vale de 60 a 10 km, coloca o carro na garagem, tem placar
+  (jogos, % de acertos, sequência) e resultado sem spoiler para compartilhar. Depois dá para
+  seguir no **treino livre** com carros aleatórios. Lógica em `src/game/diario.ts`.
 - **Lição**: perguntas de marca, de modelo, curiosidades e década de lançamento. Os erros voltam
   no fim da etapa para fixar. Feedback com vibração (haptics) no iPhone.
 - **Progresso**: km rodados (pontos), meta diária, sequência de dias, estrelas por etapa.
@@ -92,10 +98,9 @@ pergunta de marca e deve evitar logotipos; o segundo, na pergunta de modelo.
 ## Próximos passos (ideias)
 
 - Mais rotas e carros (França, Inglaterra, Coreia, picapes, F1, motos…).
-- Desafio diário: 5 recortes iguais para todo mundo, com placar para compartilhar.
 - "Tanque de combustível": vidas que recarregam com o tempo (e base para um plano premium).
 - Novos tipos de pergunta: ouvir o ronco do motor, adivinhar pela lanterna traseira, pela silhueta.
-- Sons, animação de "câmera afastando" mais caprichada, conquistas.
+- Animação de "câmera afastando" mais caprichada, conquistas.
 - Notificação diária para não perder a sequência (expo-notifications).
 - Conta + sincronização na nuvem e ranking entre amigos.
 - Versão em inglês/espanhol para lançar fora do Brasil.
