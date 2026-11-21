@@ -2,6 +2,22 @@ import type { Lesson, Route } from './types';
 
 export const ROUTES: Route[] = [
   {
+    id: 'populares',
+    title: 'Populares de Hoje',
+    subtitle: 'Os carros que você vê em todo semáforo',
+    flag: '🇧🇷',
+    color: '#14B8A6',
+    carIds: ['polo', 'onix', 'hb20', 'argo', 'mobi', 'kwid'],
+  },
+  {
+    id: 'utilitarios',
+    title: 'Sedãs, SUVs e Picapes',
+    subtitle: 'Do Corolla à Hilux: os queridinhos de agora',
+    flag: '🇧🇷',
+    color: '#F97316',
+    carIds: ['jetta', 'corolla', 'tcross', 'compass', 'strada', 'hilux'],
+  },
+  {
     id: 'brasil',
     title: 'Clássicos do Brasil',
     subtitle: 'Os carros que estavam em toda garagem',

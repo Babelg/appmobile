@@ -48,7 +48,8 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "images": "python3 scripts/fetch_car_images.py"
+    "images": "python3 scripts/fetch_car_images.py",
+    "fipe": "python3 scripts/fetch_fipe.py"
   },
   "private": true,
   "jest": {

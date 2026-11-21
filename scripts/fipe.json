@@ -1,0 +1,19 @@
+{
+  "polo": {"brand": 59, "model": "Polo Highline TSI 1.0 Flex 12V Aut."},
+  "onix": {"brand": 23, "model": "ONIX HATCH LT 1.0 12V TB Flex 5p Aut."},
+  "hb20": {"brand": 26, "model": "HB20 Comfort 1.0 Flex 12V Mec."},
+  "argo": {"brand": 21, "model": "ARGO DRIVE 1.0 6V Flex"},
+  "mobi": {"brand": 21, "model": "MOBI LIKE 1.0 Fire Flex 5p."},
+  "kwid": {"brand": 48, "model": "KWID Zen 1.0 Flex 12V 5p Mec."},
+  "jetta": {"brand": 59, "model": "JETTA GLI 350 TSI 2.0 16V 4p Aut."},
+  "corolla": {"brand": 56, "model": "Corolla XEi 2.0 Flex 16V Aut."},
+  "tcross": {"brand": 59, "model": "T-Cross Comfor. 200 TSI 1.0 Flex 5p Aut."},
+  "compass": {"brand": 29, "model": "COMPASS LONG. T270 1.3 TB 4x2 Flex Aut."},
+  "strada": {"brand": 21, "model": "Strada Freedom 1.3 Flex 8V CD"},
+  "hilux": {"brand": 56, "model": "Hilux CD SRV 4x4 2.8 TDI Diesel Aut."},
+  "fusca": {"brand": 59, "model": "Fusca"},
+  "kombi": {"brand": 59, "model": "Kombi LAST EDITION 56 1.4 Mi Total Flex"},
+  "gol": {"brand": 59, "model": "Gol GTi 2.0", "year": 1989},
+  "uno": {"brand": 21, "model": "Uno Mille Grazie 1.0 Fire Flex 8v 4p"},
+  "opala": {"brand": 23, "model": "Opala L/SL/SS/ 2.5/4.1"}
+}

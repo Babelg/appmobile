@@ -1,4 +1,88 @@
 {
+  "polo": {
+    "file": "File:2018 Volkswagen Polo 1.6 MSi Trendline.jpg",
+    "author": "Just a Man",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Polo_1.6_MSi_Trendline.jpg"
+  },
+  "onix": {
+    "file": "File:Chevrolet Onix Mk2 RS 2020 in Maldonado - front.jpg",
+    "author": "NaBUru38",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Chevrolet_Onix_Mk2_RS_2020_in_Maldonado_-_front.jpg"
+  },
+  "hb20": {
+    "file": "File:Hyundai HB20 Platinum 2025.jpg",
+    "author": "Just a Man",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Hyundai_HB20_Platinum_2025.jpg"
+  },
+  "argo": {
+    "file": "File:Fiat Argo 2017b (cropped).jpg",
+    "author": "JasonVogel",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fiat_Argo_2017b_(cropped).jpg"
+  },
+  "mobi": {
+    "file": "File:Fiat Mobi 002.jpg",
+    "author": "DestinationFearFan",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fiat_Mobi_002.jpg"
+  },
+  "kwid": {
+    "file": "File:Renault Kwid Outsider 2020.jpg",
+    "author": "Maxi-carp-99",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Renault_Kwid_Outsider_2020.jpg"
+  },
+  "jetta": {
+    "file": "File:VW GLI (LRM 20250429 173721).jpg",
+    "author": "Matti Blume",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:VW_GLI_(LRM_20250429_173721).jpg"
+  },
+  "corolla": {
+    "file": "File:Toyota Corolla sedan E210 hydrid.jpg",
+    "author": "Mateusmatsuda",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Toyota_Corolla_sedan_E210_hydrid.jpg"
+  },
+  "tcross": {
+    "file": "File:Volkswagen T-Cross IAA 2023 1X7A0155.jpg",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Volkswagen_T-Cross_IAA_2023_1X7A0155.jpg"
+  },
+  "compass": {
+    "file": "File:Jeep Compass (MP) PHEV Facelift 1X7A0140.jpg",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jeep_Compass_(MP)_PHEV_Facelift_1X7A0140.jpg"
+  },
+  "strada": {
+    "file": "File:Fiat Strada 2020 Volcano in Montevideo (front).jpg",
+    "author": "NaBUru38",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fiat_Strada_2020_Volcano_in_Montevideo_(front).jpg"
+  },
+  "hilux": {
+    "file": "File:Toyota Hilux 4x2 V Conquest 2021.jpg",
+    "author": "Captainmorlypogi1959",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Toyota_Hilux_4x2_V_Conquest_2021.jpg"
+  },
   "fusca": {
     "file": "File:Red Volkswagen Beetle three-quarter front view.jpg",
     "author": "Renée Kools",

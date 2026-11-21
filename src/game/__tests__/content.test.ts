@@ -1,6 +1,7 @@
 import { CAR_IMAGES } from '@/data/carImages';
 import { CARS } from '@/data/cars';
 import CREDITS from '@/data/credits.json';
+import FIPE from '@/data/fipe.json';
 import { LESSONS, ROUTES } from '@/data/routes';
 
 describe('conteúdo', () => {
@@ -38,6 +39,23 @@ describe('conteúdo', () => {
     expect(car.trivia.length).toBeGreaterThanOrEqual(1);
     for (const t of car.trivia) {
       expect(new Set([t.a, ...t.wrong]).size).toBe(4);
+    }
+  });
+
+  it('valores FIPE apontam para carros existentes, com preço e mês de referência', () => {
+    const ids = CARS.map((c) => c.id);
+    for (const [id, f] of Object.entries(FIPE)) {
+      expect(ids).toContain(id);
+      expect(f.price).toMatch(/^R\$ [\d.]+,\d{2}$/);
+      expect(f.ref).toMatch(/de \d{4}$/);
+      expect(f.year).toBeGreaterThan(1980);
+    }
+  });
+
+  it('todos os carros das rotas atuais têm FIPE e todos têm combustível', () => {
+    for (const car of CARS) {
+      expect(car.fuel.length).toBeGreaterThan(2);
+      if (car.route === 'populares' || car.route === 'utilitarios') expect(FIPE).toHaveProperty(car.id);
     }
   });
 

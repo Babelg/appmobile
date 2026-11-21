@@ -8,15 +8,18 @@ para ver mais, mas ganha menos km. Depois de cada resposta, aparece uma curiosid
 
 ## O que já tem
 
-- **Estrada** (tela inicial): 5 rotas temáticas (Brasil, Alemanha, Japão, EUA, Itália), cada uma
-  com 4 etapas: duas de apresentação, uma revisão e um "desafio do zoom".
+- **Estrada** (tela inicial): 7 rotas temáticas (Populares de Hoje; Sedãs, SUVs e Picapes;
+  Clássicos do Brasil; Alemanha; Japão; EUA; Itália), cada uma com 4 etapas: duas de
+  apresentação, uma revisão e um "desafio do zoom".
 - **Lição**: perguntas de marca, de modelo, curiosidades e década de lançamento. Os erros voltam
   no fim da etapa para fixar. Feedback com vibração (haptics) no iPhone.
 - **Progresso**: km rodados (pontos), meta diária, sequência de dias, estrelas por etapa.
   Tudo salvo no aparelho (AsyncStorage).
-- **Garagem**: cada carro que você identifica fica guardado, com ficha e curiosidades.
+- **Ficha técnica** no fim de toda etapa, para cada carro da etapa: valor na **Tabela FIPE**
+  (com versão, ano-modelo e mês de referência), ano, combustível e uma curiosidade.
+- **Garagem**: cada carro que você identifica fica guardado, com ficha técnica e curiosidades.
 - **Créditos** das fotos (exigido pelas licenças Creative Commons).
-- 30 carros com fotos do Wikimedia Commons, 60 perguntas de curiosidade e ~100 curiosidades.
+- 42 carros com fotos do Wikimedia Commons, 84 perguntas de curiosidade e ~140 curiosidades.
 
 ## Rodando
 
@@ -42,7 +45,7 @@ src/app/            telas (Expo Router: cada arquivo é uma rota)
 src/data/           conteúdo: carros, rotas, créditos, mapa de imagens
 src/game/           lógica pura (gera perguntas, pontuação, sequência) + testes
 src/store/          progresso do jogador (zustand + AsyncStorage)
-scripts/            baixa e recorta as fotos do Wikimedia Commons
+scripts/            baixa e recorta as fotos do Wikimedia Commons e busca os valores FIPE
 ```
 
 ## Adicionando um carro
@@ -53,7 +56,16 @@ scripts/            baixa e recorta as fotos do Wikimedia Commons
    os créditos e o mapa de imagens.
 3. Adicione o carro em `src/data/cars.ts` (recortes, curiosidades, perguntas) e o id em uma rota
    de `src/data/routes.ts`.
-4. `npm test` confere se tudo está consistente.
+4. (Opcional) Para ter valor FIPE, adicione o carro em `scripts/fipe.json` com o código da marca e
+   o nome exato da versão na tabela, e rode `npm run fipe`.
+5. `npm test` confere se tudo está consistente.
+
+## Tabela FIPE
+
+Os valores vêm da API pública da Tabela FIPE (fipe.parallelum.com.br) e ficam salvos em
+`src/data/fipe.json`, com o mês de referência que aparece no app. A tabela muda todo mês: rode
+`npm run fipe` para atualizar. Clássicos importados não têm cotação na FIPE e aparecem como
+"Sem cotação".
 
 Os recortes (`crops`) usam coordenadas de 0 a 1 sobre a foto 4:3. O primeiro recorte é usado na
 pergunta de marca e deve evitar logotipos; o segundo, na pergunta de modelo.

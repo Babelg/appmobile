@@ -5,6 +5,7 @@ import Animated, { FadeIn, FadeInDown, SlideInDown, ZoomIn } from 'react-native-
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CarPhoto } from '@/components/CarPhoto';
+import { CarSpecCard } from '@/components/CarSpecs';
 import { OptionButton, type OptionState } from '@/components/OptionButton';
 import { Button, Icon, ProgressBar, Stars, type IconName } from '@/components/ui';
 import { CAR_BY_ID } from '@/data/cars';
@@ -20,7 +21,7 @@ import {
   type Option,
   type Question,
 } from '@/game/questions';
-import { mulberry32 } from '@/game/random';
+import { mulberry32, pick } from '@/game/random';
 import { buzz } from '@/lib/haptics';
 import { useProgress, type LessonSummary } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
@@ -59,7 +60,7 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
   const [result, setResult] = useState<Result | null>(null);
   const [confirmExit, setConfirmExit] = useState(false);
 
-  if (result) return <LessonDone result={result} onClose={() => router.back()} />;
+  if (result) return <LessonDone result={result} carIds={lesson.carIds} onClose={() => router.back()} />;
 
   const q = queue[index];
   const car = CAR_BY_ID[q.carId];
@@ -246,9 +247,11 @@ function Feedback(props: {
   );
 }
 
-function LessonDone({ result, onClose }: { result: Result; onClose: () => void }) {
+function LessonDone({ result, carIds, onClose }: { result: Result; carIds: string[]; onClose: () => void }) {
   const insets = useSafeAreaInsets();
   const pct = Math.round(result.accuracy * 100);
+  // Uma curiosidade sorteada por carro, fixa enquanto a tela estiver aberta.
+  const [facts] = useState(() => carIds.map((id) => pick(CAR_BY_ID[id].facts, Math.random)));
   return (
     <ScrollView
       style={styles.screen}
@@ -291,6 +294,13 @@ function LessonDone({ result, onClose }: { result: Result; onClose: () => void }
           </ScrollView>
         </Animated.View>
       )}
+
+      <Animated.View entering={FadeInDown.delay(650)} style={{ width: '100%', gap: space(3) }}>
+        <Text style={styles.sectionLabel}>FICHA TÉCNICA DOS CARROS DA ETAPA</Text>
+        {carIds.map((id, i) => (
+          <CarSpecCard key={id} carId={id} fact={facts[i]} />
+        ))}
+      </Animated.View>
 
       <Button title="Continuar" onPress={onClose} style={{ alignSelf: 'stretch', marginTop: space(4) }} />
     </ScrollView>

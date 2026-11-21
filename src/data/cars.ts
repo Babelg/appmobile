@@ -7,6 +7,350 @@ import type { Car } from './types';
  * 3. Inclua o id em uma rota em `routes.ts`.
  */
 export const CARS: Car[] = [
+  // ───────────── Populares de Hoje ─────────────
+  {
+    id: 'polo',
+    make: 'Volkswagen',
+    model: 'Polo',
+    years: 'desde 2017 (6ª geração no Brasil)',
+    launch: 2017,
+    country: 'Alemanha',
+    fuel: 'Flex',
+    route: 'populares',
+    crops: [{ x: 0.35, y: 0.57, zoom: 3.2 }, { x: 0.62, y: 0.45, zoom: 2.6 }],
+    facts: [
+      'A Volkswagen usa o nome Polo desde 1975.',
+      'A 6ª geração é fabricada em São Bernardo do Campo (SP) desde 2017.',
+      'Em 2023 ganhou a versão de entrada Polo Track, que assumiu o lugar do Gol nas lojas.',
+      'A versão esportiva GTS usa motor 1.4 turbo.',
+    ],
+    trivia: [
+      {
+        q: 'Qual carro o Polo Track substituiu nas lojas da Volkswagen?',
+        a: 'Gol',
+        wrong: ['Fusca', 'Golf', 'Jetta'],
+      },
+      {
+        q: 'Desde que ano a Volkswagen usa o nome Polo?',
+        a: '1975',
+        wrong: ['1959', '1994', '2010'],
+      },
+    ],
+  },
+  {
+    id: 'onix',
+    make: 'Chevrolet',
+    model: 'Onix',
+    years: 'desde 2019 (2ª geração)',
+    launch: 2019,
+    country: 'EUA',
+    fuel: 'Flex',
+    route: 'populares',
+    crops: [{ x: 0.78, y: 0.5, zoom: 3.4 }, { x: 0.6, y: 0.62, zoom: 2.6 }],
+    facts: [
+      'Foi o carro mais vendido do Brasil por seis anos seguidos, de 2015 a 2020.',
+      'A 2ª geração, de 2019, trouxe o motor 1.0 turbo para o modelo.',
+      'É fabricado em Gravataí (RS).',
+      'A versão sedã se chama Onix Plus.',
+    ],
+    trivia: [
+      {
+        q: 'Como se chama a versão sedã da 2ª geração do Onix?',
+        a: 'Onix Plus',
+        wrong: ['Prisma', 'Cobalt', 'Onix Max'],
+      },
+      {
+        q: 'Em qual cidade gaúcha o Onix é fabricado?',
+        a: 'Gravataí',
+        wrong: ['Caxias do Sul', 'Canoas', 'Pelotas'],
+      },
+    ],
+  },
+  {
+    id: 'hb20',
+    make: 'Hyundai',
+    model: 'HB20',
+    years: 'desde 2012',
+    launch: 2012,
+    country: 'Coreia do Sul',
+    fuel: 'Flex',
+    route: 'populares',
+    crops: [{ x: 0.25, y: 0.33, zoom: 2.8 }, { x: 0.8, y: 0.55, zoom: 2.6 }],
+    facts: [
+      'Foi criado especialmente para o mercado brasileiro.',
+      'O "HB" do nome vem de Hyundai Brasil.',
+      'É fabricado em Piracicaba (SP), na primeira fábrica própria da Hyundai no país.',
+      'A 2ª geração chegou em 2019.',
+    ],
+    trivia: [
+      {
+        q: 'O que significa o "HB" do HB20?',
+        a: 'Hyundai Brasil',
+        wrong: ['Hatch Básico', 'High Brand', 'Hyundai Business'],
+      },
+      {
+        q: 'Em qual cidade paulista o HB20 é fabricado?',
+        a: 'Piracicaba',
+        wrong: ['São Bernardo do Campo', 'Sumaré', 'Indaiatuba'],
+      },
+    ],
+  },
+  {
+    id: 'argo',
+    make: 'Fiat',
+    model: 'Argo',
+    years: 'desde 2017',
+    launch: 2017,
+    country: 'Itália',
+    fuel: 'Flex',
+    route: 'populares',
+    crops: [{ x: 0.42, y: 0.6, zoom: 3.2 }, { x: 0.3, y: 0.62, zoom: 2.6 }],
+    facts: [
+      'Chegou em 2017 para substituir o Palio e o Punto.',
+      'É fabricado em Betim (MG).',
+      'Deu origem ao sedã Cronos e serve de base para o SUV Pulse.',
+    ],
+    trivia: [
+      {
+        q: 'Quais carros o Argo substituiu?',
+        a: 'Palio e Punto',
+        wrong: ['Uno e Mobi', 'Siena e Linea', 'Idea e Doblò'],
+      },
+      {
+        q: 'Qual é a versão sedã do Argo?',
+        a: 'Cronos',
+        wrong: ['Siena', 'Linea', 'Grand Siena'],
+      },
+    ],
+  },
+  {
+    id: 'mobi',
+    make: 'Fiat',
+    model: 'Mobi',
+    years: 'desde 2016',
+    launch: 2016,
+    country: 'Itália',
+    fuel: 'Flex',
+    route: 'populares',
+    crops: [{ x: 0.6, y: 0.56, zoom: 3.2 }, { x: 0.4, y: 0.4, zoom: 2.6 }],
+    facts: [
+      'É o carro de entrada da Fiat no Brasil, pensado para a cidade.',
+      'É fabricado em Betim (MG).',
+      'Disputa com o Renault Kwid o posto de carro zero-quilômetro mais barato do Brasil.',
+    ],
+    trivia: [
+      {
+        q: 'Com qual carro o Mobi disputa o posto de zero-quilômetro mais barato do Brasil?',
+        a: 'Renault Kwid',
+        wrong: ['Chevrolet Onix', 'Hyundai HB20', 'Volkswagen Polo'],
+      },
+      {
+        q: 'Em que ano o Fiat Mobi foi lançado?',
+        a: '2016',
+        wrong: ['2008', '2012', '2021'],
+      },
+    ],
+  },
+  {
+    id: 'kwid',
+    make: 'Renault',
+    model: 'Kwid',
+    years: 'desde 2017 no Brasil',
+    launch: 2015,
+    country: 'França',
+    fuel: 'Flex (ou elétrico, no Kwid E-Tech)',
+    route: 'populares',
+    crops: [{ x: 0.4, y: 0.72, zoom: 3.4 }, { x: 0.82, y: 0.55, zoom: 3 }],
+    facts: [
+      'Foi desenvolvido para a Índia, onde estreou em 2015, e chegou ao Brasil em 2017.',
+      'É fabricado em São José dos Pinhais (PR).',
+      'Tem uma versão 100% elétrica, o Kwid E-Tech.',
+    ],
+    trivia: [
+      {
+        q: 'Em qual país o Kwid foi lançado primeiro?',
+        a: 'Índia',
+        wrong: ['França', 'Brasil', 'Romênia'],
+      },
+      {
+        q: 'Como se chama a versão elétrica do Kwid?',
+        a: 'Kwid E-Tech',
+        wrong: ['Kwid Volt', 'Kwid EV Plus', 'Kwid Zoe'],
+      },
+    ],
+  },
+
+  // ───────────── Sedãs, SUVs e Picapes ─────────────
+  {
+    id: 'jetta',
+    make: 'Volkswagen',
+    model: 'Jetta',
+    years: 'desde 2018 (7ª geração)',
+    launch: 2018,
+    country: 'Alemanha',
+    fuel: 'Gasolina',
+    route: 'utilitarios',
+    crops: [{ x: 0.55, y: 0.7, zoom: 3.2 }, { x: 0.68, y: 0.62, zoom: 3.2 }],
+    facts: [
+      'O nome vem da corrente de vento "jet stream". A Volkswagen batizou vários carros com nomes de ventos, como Passat, Bora e Scirocco.',
+      'Desde 2021, no Brasil, é vendido só na versão esportiva GLI, com motor 2.0 turbo.',
+      'Esta geração é fabricada no México, em Puebla.',
+    ],
+    trivia: [
+      {
+        q: 'De onde vem o nome Jetta?',
+        a: 'De uma corrente de vento, o "jet stream"',
+        wrong: ['De uma cidade alemã', 'De um piloto de corrida', 'De um avião a jato'],
+      },
+      {
+        q: 'Qual é a versão esportiva do Jetta?',
+        a: 'GLI',
+        wrong: ['GTI', 'GTS', 'Sport'],
+      },
+    ],
+  },
+  {
+    id: 'corolla',
+    make: 'Toyota',
+    model: 'Corolla',
+    years: 'desde 2019 (12ª geração no Brasil)',
+    launch: 2019,
+    country: 'Japão',
+    fuel: 'Flex ou híbrido flex',
+    route: 'utilitarios',
+    crops: [{ x: 0.32, y: 0.47, zoom: 3.4 }, { x: 0.2, y: 0.55, zoom: 2.8 }],
+    facts: [
+      'É o carro mais vendido da história, com mais de 50 milhões de unidades no mundo.',
+      'Em 2019, no Brasil, estreou o primeiro motor híbrido flex do mundo (gasolina ou etanol + elétrico).',
+      'É fabricado em Indaiatuba (SP).',
+    ],
+    trivia: [
+      {
+        q: 'Qual novidade mundial o Corolla estreou no Brasil em 2019?',
+        a: 'Motor híbrido flex',
+        wrong: ['Piloto automático', 'Motor a diesel', 'Teto solar panorâmico'],
+      },
+      {
+        q: 'Quantas unidades do Corolla já foram vendidas no mundo?',
+        a: 'Mais de 50 milhões',
+        wrong: ['Cerca de 5 milhões', 'Cerca de 15 milhões', 'Mais de 200 milhões'],
+      },
+    ],
+  },
+  {
+    id: 'tcross',
+    make: 'Volkswagen',
+    model: 'T-Cross',
+    years: 'desde 2019',
+    launch: 2019,
+    country: 'Alemanha',
+    fuel: 'Flex',
+    route: 'utilitarios',
+    crops: [{ x: 0.55, y: 0.58, zoom: 3.4 }, { x: 0.3, y: 0.45, zoom: 2.6 }],
+    facts: [
+      'Foi o primeiro SUV da Volkswagen fabricado no Brasil, em São José dos Pinhais (PR).',
+      'A versão brasileira é maior que a europeia, com mais espaço entre os eixos.',
+      'Usa a mesma plataforma MQB do Polo e do Virtus.',
+    ],
+    trivia: [
+      {
+        q: 'O T-Cross compartilha a plataforma com qual carro?',
+        a: 'Volkswagen Polo',
+        wrong: ['Volkswagen Amarok', 'Volkswagen Gol', 'Volkswagen Saveiro'],
+      },
+      {
+        q: 'Em que estado o T-Cross é fabricado?',
+        a: 'Paraná',
+        wrong: ['São Paulo', 'Minas Gerais', 'Bahia'],
+      },
+    ],
+  },
+  {
+    id: 'compass',
+    make: 'Jeep',
+    model: 'Compass',
+    years: 'desde 2016 (2ª geração)',
+    launch: 2016,
+    country: 'EUA',
+    fuel: 'Flex, diesel ou híbrido',
+    route: 'utilitarios',
+    crops: [{ x: 0.4, y: 0.55, zoom: 3.4 }, { x: 0.75, y: 0.55, zoom: 2.8 }],
+    facts: [
+      'É fabricado em Goiana (PE), na fábrica da Jeep inaugurada em 2015.',
+      'Liderou por vários anos o segmento de SUVs médios no Brasil.',
+      'As sete fendas da grade dianteira são a marca registrada da Jeep.',
+      'Tem uma versão híbrida plug-in, a 4xe.',
+    ],
+    trivia: [
+      {
+        q: 'Quantas fendas tem a grade dianteira dos Jeep?',
+        a: '7',
+        wrong: ['5', '6', '9'],
+      },
+      {
+        q: 'Em qual estado o Compass é fabricado?',
+        a: 'Pernambuco',
+        wrong: ['Bahia', 'Goiás', 'Paraná'],
+      },
+    ],
+  },
+  {
+    id: 'strada',
+    make: 'Fiat',
+    model: 'Strada',
+    years: 'desde 2020 (2ª geração)',
+    launch: 2020,
+    country: 'Itália',
+    fuel: 'Flex',
+    route: 'utilitarios',
+    crops: [{ x: 0.25, y: 0.53, zoom: 3.4 }, { x: 0.75, y: 0.45, zoom: 2.6 }],
+    facts: [
+      'A partir de 2021 foi o veículo mais vendido do Brasil por vários anos seguidos, à frente até dos carros de passeio.',
+      'A 1ª geração, lançada em 1998, ficou mais de 20 anos em produção.',
+      'É fabricada em Betim (MG).',
+    ],
+    trivia: [
+      {
+        q: 'Qual título a Strada conquistou a partir de 2021?',
+        a: 'Veículo mais vendido do Brasil',
+        wrong: ['Carro do Ano na Europa', 'Picape mais rápida do mundo', 'Primeira picape elétrica do Brasil'],
+      },
+      {
+        q: 'Em que ano foi lançada a primeira Strada?',
+        a: '1998',
+        wrong: ['1985', '2005', '2012'],
+      },
+    ],
+  },
+  {
+    id: 'hilux',
+    make: 'Toyota',
+    model: 'Hilux',
+    years: 'desde 2015 (8ª geração)',
+    launch: 2015,
+    country: 'Japão',
+    fuel: 'Diesel ou flex',
+    route: 'utilitarios',
+    crops: [{ x: 0.6, y: 0.47, zoom: 3.4 }, { x: 0.4, y: 0.68, zoom: 2.8 }],
+    facts: [
+      'Ficou famosa no programa "Top Gear", em que uma Hilux sobreviveu até à implosão de um prédio e continuou funcionando.',
+      'O nome Hilux é usado desde 1968.',
+      'A Hilux vendida no Brasil vem da Argentina, da fábrica de Zárate.',
+    ],
+    trivia: [
+      {
+        q: 'Em qual programa de TV uma Hilux sobreviveu à implosão de um prédio?',
+        a: 'Top Gear',
+        wrong: ['MythBusters', 'Overhaulin', 'Auto Esporte'],
+      },
+      {
+        q: 'Desde que ano existe o nome Hilux?',
+        a: '1968',
+        wrong: ['1955', '1985', '2005'],
+      },
+    ],
+  },
+
   // ───────────── Brasil ─────────────
   {
     id: 'fusca',
@@ -15,6 +359,7 @@ export const CARS: Car[] = [
     years: '1959–1996 no Brasil',
     launch: 1938,
     country: 'Alemanha',
+    fuel: 'Gasolina ou álcool',
     route: 'brasil',
     crops: [{ x: 0.27, y: 0.6, zoom: 3.2 }, { x: 0.55, y: 0.3, zoom: 2.6 }],
     facts: [
@@ -42,6 +387,7 @@ export const CARS: Car[] = [
     years: '1957–2013 no Brasil',
     launch: 1950,
     country: 'Alemanha',
+    fuel: 'Gasolina, álcool ou flex (desde 2006)',
     route: 'brasil',
     crops: [{ x: 0.22, y: 0.64, zoom: 3.2 }, { x: 0.42, y: 0.3, zoom: 2.4 }],
     facts: [
@@ -73,6 +419,7 @@ export const CARS: Car[] = [
     years: '1968–1992',
     launch: 1968,
     country: 'EUA',
+    fuel: 'Gasolina ou álcool',
     route: 'brasil',
     crops: [{ x: 0.6, y: 0.4, zoom: 3 }, { x: 0.33, y: 0.55, zoom: 2.8 }],
     facts: [
@@ -101,6 +448,7 @@ export const CARS: Car[] = [
     years: '1973–1982',
     launch: 1973,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'brasil',
     crops: [{ x: 0.5, y: 0.6, zoom: 3 }, { x: 0.75, y: 0.35, zoom: 2.4 }],
     facts: [
@@ -129,6 +477,7 @@ export const CARS: Car[] = [
     years: '1980–1996 (1ª geração)',
     launch: 1980,
     country: 'Alemanha',
+    fuel: 'Gasolina ou álcool',
     route: 'brasil',
     crops: [{ x: 0.78, y: 0.38, zoom: 2.6 }, { x: 0.1, y: 0.56, zoom: 3 }],
     facts: [
@@ -157,6 +506,7 @@ export const CARS: Car[] = [
     years: '1984–2013 no Brasil (1ª geração)',
     launch: 1983,
     country: 'Itália',
+    fuel: 'Gasolina, álcool ou flex',
     route: 'brasil',
     crops: [{ x: 0.62, y: 0.38, zoom: 2.6 }, { x: 0.85, y: 0.55, zoom: 2.8 }],
     facts: [
@@ -186,6 +536,7 @@ export const CARS: Car[] = [
     years: '1964–1989 (série original)',
     launch: 1964,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'alemanha',
     crops: [{ x: 0.47, y: 0.6, zoom: 3.2 }, { x: 0.72, y: 0.52, zoom: 2.6 }],
     facts: [
@@ -215,6 +566,7 @@ export const CARS: Car[] = [
     years: '1954–1957 (cupê)',
     launch: 1954,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'alemanha',
     crops: [{ x: 0.75, y: 0.22, zoom: 2.6 }, { x: 0.33, y: 0.62, zoom: 3.2 }],
     facts: [
@@ -247,6 +599,7 @@ export const CARS: Car[] = [
     years: '1986–1991',
     launch: 1986,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'alemanha',
     crops: [{ x: 0.2, y: 0.61, zoom: 3.4 }, { x: 0.6, y: 0.57, zoom: 3.2 }],
     facts: [
@@ -274,6 +627,7 @@ export const CARS: Car[] = [
     years: '1976–1983 (1ª geração)',
     launch: 1976,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'alemanha',
     crops: [{ x: 0.25, y: 0.45, zoom: 2.6 }, { x: 0.6, y: 0.53, zoom: 3 }],
     facts: [
@@ -302,6 +656,7 @@ export const CARS: Car[] = [
     years: '1980–1991',
     launch: 1980,
     country: 'Alemanha',
+    fuel: 'Gasolina',
     route: 'alemanha',
     crops: [{ x: 0.5, y: 0.52, zoom: 3 }, { x: 0.4, y: 0.55, zoom: 2.6 }],
     facts: [
@@ -329,6 +684,7 @@ export const CARS: Car[] = [
     years: 'desde 1979',
     launch: 1979,
     country: 'Alemanha',
+    fuel: 'Gasolina ou diesel',
     route: 'alemanha',
     crops: [{ x: 0.65, y: 0.3, zoom: 2.6 }, { x: 0.3, y: 0.6, zoom: 3.4 }],
     facts: [
@@ -359,6 +715,7 @@ export const CARS: Car[] = [
     years: '1993–2002',
     launch: 1993,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.32, y: 0.56, zoom: 3.2 }, { x: 0.6, y: 0.45, zoom: 2.6 }],
     facts: [
@@ -386,6 +743,7 @@ export const CARS: Car[] = [
     years: '1999–2002',
     launch: 1999,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.5, y: 0.57, zoom: 3.4 }, { x: 0.25, y: 0.38, zoom: 2.8 }],
     facts: [
@@ -415,6 +773,7 @@ export const CARS: Car[] = [
     years: '1989–1997',
     launch: 1989,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.68, y: 0.58, zoom: 3 }, { x: 0.45, y: 0.48, zoom: 2.4 }],
     facts: [
@@ -443,6 +802,7 @@ export const CARS: Car[] = [
     years: '1990–2005 (1ª geração)',
     launch: 1990,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.3, y: 0.45, zoom: 2.8 }, { x: 0.72, y: 0.6, zoom: 3 }],
     facts: [
@@ -471,6 +831,7 @@ export const CARS: Car[] = [
     years: '1983–1987',
     launch: 1983,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.6, y: 0.55, zoom: 3 }, { x: 0.35, y: 0.62, zoom: 2.6 }],
     facts: [
@@ -499,6 +860,7 @@ export const CARS: Car[] = [
     years: '1992–2016 (10 gerações)',
     launch: 1992,
     country: 'Japão',
+    fuel: 'Gasolina',
     route: 'japao',
     crops: [{ x: 0.65, y: 0.38, zoom: 3 }, { x: 0.45, y: 0.57, zoom: 3 }],
     facts: [
@@ -528,6 +890,7 @@ export const CARS: Car[] = [
     years: '1964–1973 (1ª geração)',
     launch: 1964,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.3, y: 0.57, zoom: 3.2 }, { x: 0.62, y: 0.42, zoom: 2.6 }],
     facts: [
@@ -555,6 +918,7 @@ export const CARS: Car[] = [
     years: '1967–1969 (1ª geração)',
     launch: 1967,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.5, y: 0.6, zoom: 3.2 }, { x: 0.45, y: 0.3, zoom: 2.6 }],
     facts: [
@@ -582,6 +946,7 @@ export const CARS: Car[] = [
     years: '1968–1970 (2ª geração)',
     launch: 1968,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.6, y: 0.55, zoom: 3.2 }, { x: 0.25, y: 0.45, zoom: 2.6 }],
     facts: [
@@ -610,6 +975,7 @@ export const CARS: Car[] = [
     years: '1963–1967',
     launch: 1963,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.72, y: 0.58, zoom: 3.2 }, { x: 0.38, y: 0.42, zoom: 2.8 }],
     facts: [
@@ -637,6 +1003,7 @@ export const CARS: Car[] = [
     years: '1970–1981 (2ª geração)',
     launch: 1970,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.45, y: 0.4, zoom: 2.8 }, { x: 0.72, y: 0.55, zoom: 3 }],
     facts: [
@@ -665,6 +1032,7 @@ export const CARS: Car[] = [
     years: '1955–1957 (geração "Tri-Five")',
     launch: 1955,
     country: 'EUA',
+    fuel: 'Gasolina',
     route: 'eua',
     crops: [{ x: 0.48, y: 0.55, zoom: 3.4 }, { x: 0.3, y: 0.6, zoom: 2.4 }],
     facts: [
@@ -694,6 +1062,7 @@ export const CARS: Car[] = [
     years: '1987–1992',
     launch: 1987,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.6, y: 0.62, zoom: 3.4 }, { x: 0.3, y: 0.55, zoom: 2.8 }],
     facts: [
@@ -721,6 +1090,7 @@ export const CARS: Car[] = [
     years: '1974–1990',
     launch: 1974,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.35, y: 0.3, zoom: 2.6 }, { x: 0.75, y: 0.6, zoom: 2.8 }],
     facts: [
@@ -750,6 +1120,7 @@ export const CARS: Car[] = [
     years: '1957–1975',
     launch: 1957,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.5, y: 0.55, zoom: 3.4 }, { x: 0.25, y: 0.58, zoom: 2.8 }],
     facts: [
@@ -777,6 +1148,7 @@ export const CARS: Car[] = [
     years: '1966–1973',
     launch: 1966,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.92, y: 0.5, zoom: 3.4 }, { x: 0.6, y: 0.5, zoom: 2.6 }],
     facts: [
@@ -805,6 +1177,7 @@ export const CARS: Car[] = [
     years: '1984–1991',
     launch: 1984,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.45, y: 0.7, zoom: 3.2 }, { x: 0.88, y: 0.5, zoom: 2.8 }],
     facts: [
@@ -832,6 +1205,7 @@ export const CARS: Car[] = [
     years: '1987–1994',
     launch: 1987,
     country: 'Itália',
+    fuel: 'Gasolina',
     route: 'italia',
     crops: [{ x: 0.5, y: 0.55, zoom: 3 }, { x: 0.2, y: 0.57, zoom: 3 }],
     facts: [

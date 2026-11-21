@@ -1,4 +1,46 @@
 {
+  "polo": {
+    "file": "File:2018 Volkswagen Polo 1.6 MSi Trendline.jpg",
+    "centerX": 0.0
+  },
+  "onix": {
+    "file": "File:Chevrolet Onix Mk2 RS 2020 in Maldonado - front.jpg",
+    "centerX": 1.0
+  },
+  "hb20": {
+    "file": "File:Hyundai HB20 Platinum 2025.jpg",
+    "centerX": 1.0
+  },
+  "argo": {
+    "file": "File:Fiat Argo 2017b (cropped).jpg",
+    "centerX": 0.0
+  },
+  "mobi": {
+    "file": "File:Fiat Mobi 002.jpg"
+  },
+  "kwid": {
+    "file": "File:Renault Kwid Outsider 2020.jpg"
+  },
+  "jetta": {
+    "file": "File:VW GLI (LRM 20250429 173721).jpg",
+    "centerX": 1.0
+  },
+  "corolla": {
+    "file": "File:Toyota Corolla sedan E210 hydrid.jpg"
+  },
+  "tcross": {
+    "file": "File:Volkswagen T-Cross IAA 2023 1X7A0155.jpg",
+    "centerX": 1.0
+  },
+  "compass": {
+    "file": "File:Jeep Compass (MP) PHEV Facelift 1X7A0140.jpg"
+  },
+  "strada": {
+    "file": "File:Fiat Strada 2020 Volcano in Montevideo (front).jpg"
+  },
+  "hilux": {
+    "file": "File:Toyota Hilux 4x2 V Conquest 2021.jpg"
+  },
   "fusca": {
     "file": "File:Red Volkswagen Beetle three-quarter front view.jpg"
   },

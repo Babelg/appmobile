@@ -2,6 +2,18 @@
 
 /** carId -> asset da foto (o require() devolve o id do asset no Metro). */
 export const CAR_IMAGES: Record<string, number> = {
+  polo: require('../../assets/cars/polo.jpg'),
+  onix: require('../../assets/cars/onix.jpg'),
+  hb20: require('../../assets/cars/hb20.jpg'),
+  argo: require('../../assets/cars/argo.jpg'),
+  mobi: require('../../assets/cars/mobi.jpg'),
+  kwid: require('../../assets/cars/kwid.jpg'),
+  jetta: require('../../assets/cars/jetta.jpg'),
+  corolla: require('../../assets/cars/corolla.jpg'),
+  tcross: require('../../assets/cars/tcross.jpg'),
+  compass: require('../../assets/cars/compass.jpg'),
+  strada: require('../../assets/cars/strada.jpg'),
+  hilux: require('../../assets/cars/hilux.jpg'),
   fusca: require('../../assets/cars/fusca.jpg'),
   kombi: require('../../assets/cars/kombi.jpg'),
   opala: require('../../assets/cars/opala.jpg'),

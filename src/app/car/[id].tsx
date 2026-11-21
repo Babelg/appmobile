@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CarPhoto } from '@/components/CarPhoto';
+import { SpecGrid } from '@/components/CarSpecs';
 import { Button, Icon } from '@/components/ui';
 import { CAR_BY_ID } from '@/data/cars';
 import CREDITS from '@/data/credits.json';
@@ -49,11 +50,13 @@ export default function CarScreen() {
             <Text style={styles.title}>{car.model}</Text>
 
             <View style={styles.chips}>
-              <Chip icon="calendar-range" text={car.years} />
               <Chip icon="map-marker-outline" text={`Marca: ${car.country}`} />
               {car.nickname && <Chip icon="tag-outline" text={`"${car.nickname}"`} />}
               <Chip icon="road-variant" text={`${route.flag} ${route.title}`} />
             </View>
+
+            <Text style={styles.section}>FICHA TÉCNICA</Text>
+            <SpecGrid carId={car.id} />
 
             <Text style={styles.section}>CURIOSIDADES</Text>
             <View style={{ gap: space(3) }}>

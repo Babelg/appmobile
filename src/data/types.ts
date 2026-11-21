@@ -1,4 +1,4 @@
-export type RouteId = 'brasil' | 'alemanha' | 'japao' | 'eua' | 'italia';
+export type RouteId = 'populares' | 'utilitarios' | 'brasil' | 'alemanha' | 'japao' | 'eua' | 'italia';
 
 /**
  * Ponto de foco de um "recorte" da foto. As fotos são sempre 4:3;
@@ -24,6 +24,8 @@ export type Car = {
   /** Ano de lançamento do modelo (usado nas perguntas de década). */
   launch: number;
   country: string;
+  /** Combustível do modelo, como aparece na ficha (ex.: "Flex", "Gasolina ou álcool"). */
+  fuel: string;
   route: RouteId;
   /** Detalhes da foto usados nas perguntas de recorte. */
   crops: Crop[];
@@ -48,6 +50,16 @@ export type Lesson = {
   title: string;
   level: LessonLevel;
   carIds: string[];
+};
+
+/** Valor da Tabela FIPE de uma versão de referência (gerado por scripts/fetch_fipe.py). */
+export type FipeInfo = {
+  price: string;
+  model: string;
+  year: number;
+  fuel: string;
+  code: string;
+  ref: string;
 };
 
 export type ImageCredit = {
