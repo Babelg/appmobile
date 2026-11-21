@@ -1,5 +1,6 @@
 export type RouteId =
   | 'populares'
+  | 'vendas'
   | 'suvs'
   | 'sedas'
   | 'utilitarios'

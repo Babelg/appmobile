@@ -42,3 +42,22 @@ export function isLessonUnlocked(lessonId: string, completed: Record<string, unk
   const index = routeLessons.indexOf(lesson);
   return index === 0 || routeLessons[index - 1].id in completed;
 }
+
+/** Etapas concluídas necessárias para chegar a cada nível (nível 1 = começo). */
+export const NIVEIS = [0, 4, 8, 14, 22] as const;
+export const NIVEL_MAX = NIVEIS.length;
+
+/** Nível do jogador pelo total de etapas concluídas. */
+export function nivelDe(concluidas: number): number {
+  let n = 1;
+  NIVEIS.forEach((minimo, i) => {
+    if (concluidas >= minimo) n = i + 1;
+  });
+  return n;
+}
+
+/** Quantas etapas faltam para o próximo nível (null no nível máximo). */
+export function faltamParaSubir(concluidas: number): number | null {
+  const n = nivelDe(concluidas);
+  return n >= NIVEL_MAX ? null : NIVEIS[n] - concluidas;
+}

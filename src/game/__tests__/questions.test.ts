@@ -1,13 +1,15 @@
 import { CAR_BY_ID } from '@/data/cars';
-import { LESSONS } from '@/data/routes';
+import { ehRotaDeVendas, LESSONS } from '@/data/routes';
 
-import { buildLesson, decadeLabel, kmForAnswer, retryOf, starsFor, zoomLevels } from '../questions';
+import { buildLesson, decadeLabel, dificuldadeDoNivel, kmForAnswer, retryOf, starsFor, zoomLevels } from '../questions';
 import { mulberry32 } from '../random';
 
 const SEEDS = Array.from({ length: 40 }, (_, i) => i + 1);
+const DE_CARROS = LESSONS.filter((l) => !ehRotaDeVendas(l.route));
+const DE_VENDAS = LESSONS.filter((l) => ehRotaDeVendas(l.route));
 
 describe('buildLesson', () => {
-  it.each(LESSONS.map((l) => [l.id, l] as const))('%s gera perguntas válidas', (_id, lesson) => {
+  it.each(DE_CARROS.map((l) => [l.id, l] as const))('%s gera perguntas válidas', (_id, lesson) => {
     for (const seed of SEEDS) {
       const questions = buildLesson(lesson, mulberry32(seed));
       expect(questions.length).toBeGreaterThanOrEqual(8);
@@ -34,7 +36,7 @@ describe('buildLesson', () => {
   });
 
   it('etapas de apresentação seguem marca → modelo → curiosidade', () => {
-    const intro = LESSONS.find((l) => l.level === 'intro')!;
+    const intro = DE_CARROS.find((l) => l.level === 'intro')!;
     const kinds = buildLesson(intro, mulberry32(7)).map((q) => q.kind);
     expect(kinds).toEqual([
       'brand', 'brand', 'brand',
@@ -44,7 +46,7 @@ describe('buildLesson', () => {
   });
 
   it('em revisão e desafio, foto inteira de um carro nunca aparece antes do recorte dele', () => {
-    for (const lesson of LESSONS.filter((l) => l.level !== 'intro')) {
+    for (const lesson of DE_CARROS.filter((l) => l.level !== 'intro')) {
       for (const seed of SEEDS) {
         const questions = buildLesson(lesson, mulberry32(seed));
         questions.forEach((q, i) => {
@@ -62,6 +64,60 @@ describe('buildLesson', () => {
     const challenge = buildLesson(LESSONS.find((l) => l.id === 'brasil-4')!, mulberry32(3));
     const maxZoom = (qs: typeof intro) => Math.max(...qs.filter((q) => q.crop).map((q) => q.crop!.zoom));
     expect(maxZoom(challenge)).toBeGreaterThan(maxZoom(intro));
+  });
+});
+
+describe('rota de vendas', () => {
+  it.each(DE_VENDAS.map((l) => [l.id, l] as const))('%s gera perguntas válidas', (_id, lesson) => {
+    for (const seed of SEEDS.slice(0, 10)) {
+      const qs = buildLesson(lesson, mulberry32(seed));
+      expect(qs.length).toBeGreaterThanOrEqual(4);
+      expect(new Set(qs.map((q) => q.key)).size).toBe(qs.length);
+      for (const q of qs) {
+        expect(q.kind).toBe('vendas');
+        expect(q.crop).toBeNull();
+        expect(q.options).toHaveLength(4);
+        expect(new Set(q.options.map((o) => o.label)).size).toBe(4);
+        if (q.carId) expect(CAR_BY_ID[q.carId]).toBeDefined();
+        if (q.ano) expect(q.prompt).toContain(String(q.ano));
+      }
+    }
+  });
+
+  it('o desafio mistura perguntas das outras etapas', () => {
+    const desafio = DE_VENDAS[DE_VENDAS.length - 1];
+    const qs = buildLesson(desafio, mulberry32(3));
+    expect(qs.some((q) => !q.key.startsWith('vendas-3-'))).toBe(true);
+  });
+});
+
+describe('dificuldade por nível', () => {
+  it('menos dicas e recorte mais fechado conforme o nível sobe', () => {
+    expect(dificuldadeDoNivel(1)).toEqual({ nivel: 1, zoom: 1, dicas: 2 });
+    expect(dificuldadeDoNivel(3).dicas).toBe(1);
+    expect(dificuldadeDoNivel(5).dicas).toBe(0);
+    expect(dificuldadeDoNivel(5).zoom).toBeGreaterThan(dificuldadeDoNivel(2).zoom);
+  });
+
+  it('zoomLevels respeita o número de dicas', () => {
+    const crop = { x: 0.5, y: 0.5, zoom: 3 };
+    expect(zoomLevels(crop, 2)).toHaveLength(3);
+    expect(zoomLevels(crop, 1)).toEqual([3, 2]);
+    expect(zoomLevels(crop, 0)).toEqual([3]);
+  });
+
+  it('no nível alto o recorte da etapa fica mais fechado (até o limite)', () => {
+    const lesson = DE_CARROS[0];
+    const max = (nivel: number) => Math.max(...buildLesson(lesson, mulberry32(5), nivel).filter((q) => q.crop).map((q) => q.crop!.zoom));
+    expect(max(5)).toBeGreaterThan(max(1));
+    expect(max(5)).toBeLessThanOrEqual(4.5);
+  });
+
+  it('acerto em nível alto vale mais km', () => {
+    const q = buildLesson(DE_CARROS[0], mulberry32(1)).find((x) => x.kind === 'identify')!;
+    expect(kmForAnswer(q, { zoomOuts: 0, retry: false, level: 'intro', nivel: 5 })).toBeGreaterThan(
+      kmForAnswer(q, { zoomOuts: 0, retry: false, level: 'intro', nivel: 1 }),
+    );
   });
 });
 

@@ -1,3 +1,4 @@
+import { useAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -11,8 +12,10 @@ import { Button, Icon, ProgressBar, Stars, type IconName } from '@/components/ui
 import { CAR_BY_ID } from '@/data/cars';
 import { LESSON_BY_ID, ROUTE_BY_ID } from '@/data/routes';
 import type { Car } from '@/data/types';
+import { nivelDe } from '@/game/progress';
 import {
   buildLesson,
+  dificuldadeDoNivel,
   kmForAnswer,
   LESSON_BONUS_KM,
   PERFECT_BONUS_KM,
@@ -52,7 +55,13 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
   const finishLesson = useProgress((s) => s.finishLesson);
 
   const [rng] = useState(() => mulberry32(Math.floor(Math.random() * 2 ** 31)));
-  const [queue, setQueue] = useState<Question[]>(() => buildLesson(lesson, rng));
+  // nível do jogador no início da etapa: define o quanto o recorte fecha e quantas dicas há
+  const [nivel] = useState(() => nivelDe(Object.keys(useProgress.getState().lessons).length));
+  const dif = dificuldadeDoNivel(nivel);
+  const [queue, setQueue] = useState<Question[]>(() => buildLesson(lesson, rng, nivel));
+  const somLigado = useProgress((s) => s.som);
+  const somAcerto = useAudioPlayer(require('../../../assets/sons/acerto.wav'));
+  const somErro = useAudioPlayer(require('../../../assets/sons/erro.wav'));
   const [index, setIndex] = useState(0);
   const [zoomStep, setZoomStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -60,12 +69,17 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
   const [result, setResult] = useState<Result | null>(null);
   const [confirmExit, setConfirmExit] = useState(false);
 
-  if (result) return <LessonDone result={result} carIds={lesson.carIds} onClose={() => router.back()} />;
+  if (result) {
+    // etapa de carros: a ficha dos carros dela; etapa de vendas: a dos carros que foram resposta
+    const fichaIds = lesson.carIds.length ? lesson.carIds : [...new Set(queue.map((x) => x.carId).filter((id) => id in CAR_BY_ID))];
+    return <LessonDone result={result} carIds={fichaIds} onClose={() => router.back()} />;
+  }
 
   const q = queue[index];
   const car = CAR_BY_ID[q.carId];
   const isRetry = q.key.endsWith('-retry');
-  const levels = q.crop ? zoomLevels(q.crop) : [1];
+  const levels = q.crop ? zoomLevels(q.crop, dif.dicas) : [1];
+  const dicasRestantes = levels.length - 1 - zoomStep;
   const answered = picked !== null;
   const correct = picked === q.answer;
   const zoom = answered ? 1 : levels[zoomStep];
@@ -75,7 +89,8 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
     const ok = i === q.answer;
     setPicked(i);
     buzz(ok ? 'success' : 'error');
-    const km = ok ? kmForAnswer(q, { zoomOuts: zoomStep, retry: isRetry, level: lesson.level }) : 0;
+    if (somLigado) tocar(ok ? somAcerto : somErro);
+    const km = ok ? kmForAnswer(q, { zoomOuts: zoomStep, retry: isRetry, level: lesson.level, nivel }) : 0;
     setTally((t) => ({
       km: t.km + km,
       answered: t.answered + (isRetry ? 0 : 1),
@@ -140,9 +155,19 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
           <Text style={styles.prompt}>{q.prompt}</Text>
 
           <View style={styles.photoWrap}>
-            <CarPhoto carId={q.carId} focusX={q.crop?.x} focusY={q.crop?.y} zoom={zoom} />
-            {(answered || !q.crop) && <Caption car={car} />}
-            {q.crop && !answered && zoomStep < levels.length - 1 && (
+            {q.kind === 'vendas' && !(answered && car) ? (
+              <PlacaVendas ano={q.ano} cor={route.color} />
+            ) : (
+              <CarPhoto carId={q.carId} focusX={q.crop?.x} focusY={q.crop?.y} zoom={zoom} />
+            )}
+            {car && (answered || !q.crop) && !(q.kind === 'vendas' && !answered) && <Caption car={car} />}
+            {q.crop && !answered && dif.dicas === 0 && (
+              <View style={styles.zoomBtn}>
+                <Icon name="magnify-close" size={18} color={colors.textDim} />
+                <Text style={[styles.zoomText, { color: colors.textDim }]}>Nível {nivel}: sem dicas</Text>
+              </View>
+            )}
+            {q.crop && !answered && dicasRestantes > 0 && (
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Afastar a câmera (dica)"
@@ -152,7 +177,9 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
                   setZoomStep((s) => s + 1);
                 }}>
                 <Icon name="magnify-minus-outline" size={18} color={colors.text} />
-                <Text style={styles.zoomText}>Afastar · −3 km</Text>
+                <Text style={styles.zoomText}>
+                  Afastar ({dicasRestantes}) · −3 km
+                </Text>
               </Pressable>
             )}
           </View>
@@ -193,6 +220,29 @@ function LessonPlayer({ lessonId }: { lessonId: string }) {
           </View>
         </Animated.View>
       )}
+    </View>
+  );
+}
+
+/** Toca um efeito do começo (dá para repetir rápido sem esperar o anterior acabar). */
+function tocar(player: AudioPlayer) {
+  try {
+    player.seekTo(0).catch(() => {});
+    player.play();
+  } catch {
+    // sem áudio disponível: segue só com a vibração
+  }
+}
+
+/** Placa da pergunta de vendas: o ano em destaque, no estilo das placas da Estrada. */
+function PlacaVendas({ ano, cor }: { ano?: number; cor: string }) {
+  return (
+    <View style={[styles.placa, { backgroundColor: cor }]}>
+      <View style={styles.placaInner}>
+        <Text style={styles.placaKicker}>RANKING DE VENDAS · BRASIL</Text>
+        {ano ? <Text style={styles.placaAno}>{ano}</Text> : <Icon name="trophy" size={96} color="#FFFFFF" />}
+        <Text style={styles.placaRodape}>emplacamentos do ano inteiro</Text>
+      </View>
     </View>
   );
 }
@@ -279,6 +329,16 @@ function LessonDone({ result, carIds, onClose }: { result: Result; carIds: strin
         </Text>
       )}
 
+      {result.nivelDepois > result.nivelAntes && (
+        <Animated.View entering={ZoomIn.delay(450).springify()} style={styles.nivelUp}>
+          <Icon name="stairs-up" size={28} color={colors.onAccent} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.nivelUpTitulo}>Você subiu para o nível {result.nivelDepois}!</Text>
+            <Text style={styles.nivelUpTexto}>{textoNivel(result.nivelDepois)}</Text>
+          </View>
+        </Animated.View>
+      )}
+
       {result.newCars.length > 0 && (
         <Animated.View entering={FadeInDown.delay(500)} style={{ width: '100%', gap: space(3) }}>
           <Text style={styles.sectionLabel}>NOVOS NA SUA GARAGEM</Text>
@@ -305,6 +365,13 @@ function LessonDone({ result, carIds, onClose }: { result: Result; carIds: strin
       <Button title="Continuar" onPress={onClose} style={{ alignSelf: 'stretch', marginTop: space(4) }} />
     </ScrollView>
   );
+}
+
+/** O que muda no nível novo, em uma frase. */
+function textoNivel(nivel: number) {
+  const d = dificuldadeDoNivel(nivel);
+  const dicas = d.dicas === 0 ? 'nenhuma dica de afastar' : d.dicas === 1 ? 'só 1 dica de afastar' : `${d.dicas} dicas de afastar`;
+  return `Recortes mais fechados e ${dicas}. Cada acerto vale ${10 * (nivel - 1)}% a mais.`;
 }
 
 function StatBox({ icon, color, value, label }: { icon: IconName; color: string; value: string; label: string }) {
@@ -371,6 +438,19 @@ const styles = StyleSheet.create({
     paddingVertical: space(2),
   },
   zoomText: { color: colors.text, fontWeight: '700', fontSize: 13 },
+  placa: { aspectRatio: 4 / 3, padding: 6 },
+  placaInner: {
+    flex: 1,
+    borderWidth: 3,
+    borderColor: 'rgba(255,255,255,0.9)',
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space(1),
+  },
+  placaKicker: { color: 'rgba(255,255,255,0.9)', fontWeight: '800', fontSize: 13, letterSpacing: 1.4 },
+  placaAno: { color: '#FFFFFF', fontWeight: '900', fontSize: 96, letterSpacing: -3, fontVariant: ['tabular-nums'] },
+  placaRodape: { color: 'rgba(255,255,255,0.85)', fontWeight: '600', fontSize: 14 },
   options: { gap: space(2.5) },
   feedback: {
     position: 'absolute',
@@ -437,6 +517,17 @@ const styles = StyleSheet.create({
   },
   statValue: { color: colors.text, fontSize: 22, fontWeight: '900' },
   statLabel: { color: colors.textDim, fontSize: 12, fontWeight: '600' },
+  nivelUp: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space(3),
+    alignSelf: 'stretch',
+    backgroundColor: colors.accent,
+    borderRadius: radius.md,
+    padding: space(4),
+  },
+  nivelUpTitulo: { color: colors.onAccent, fontSize: 17, fontWeight: '900' },
+  nivelUpTexto: { color: colors.onAccent, fontSize: 14, fontWeight: '600', marginTop: 2 },
   streakNote: { color: colors.fire, fontWeight: '700', fontSize: 15, textAlign: 'center' },
   sectionLabel: { color: colors.textDim, fontWeight: '800', fontSize: 12, letterSpacing: 1 },
   newCar: { width: 130, gap: space(1.5) },

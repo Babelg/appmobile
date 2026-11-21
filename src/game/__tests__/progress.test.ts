@@ -1,6 +1,6 @@
 import { LESSONS } from '@/data/routes';
 
-import { dayKey, daysBetween, isLessonUnlocked, nextStreak, visibleStreak } from '../progress';
+import { dayKey, daysBetween, faltamParaSubir, isLessonUnlocked, nextStreak, nivelDe, visibleStreak } from '../progress';
 
 describe('datas', () => {
   it('dayKey usa a data local', () => {
@@ -47,5 +47,22 @@ describe('desbloqueio', () => {
 
   it('etapa inexistente fica bloqueada', () => {
     expect(isLessonUnlocked('nao-existe', {})).toBe(false);
+  });
+});
+
+describe('nível do jogador', () => {
+  it('sobe com as etapas concluídas', () => {
+    expect(nivelDe(0)).toBe(1);
+    expect(nivelDe(3)).toBe(1);
+    expect(nivelDe(4)).toBe(2);
+    expect(nivelDe(8)).toBe(3);
+    expect(nivelDe(22)).toBe(5);
+    expect(nivelDe(99)).toBe(5);
+  });
+
+  it('diz quanto falta para subir', () => {
+    expect(faltamParaSubir(0)).toBe(4);
+    expect(faltamParaSubir(5)).toBe(3);
+    expect(faltamParaSubir(30)).toBeNull();
   });
 });

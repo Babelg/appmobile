@@ -13,17 +13,18 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Icon, ProgressBar, StatPill, Stars, type IconName } from '@/components/ui';
 import { CARS } from '@/data/cars';
-import { lessonsOfRoute, ROUTES } from '@/data/routes';
+import { ehRotaDeVendas, lessonsOfRoute, ROUTES } from '@/data/routes';
 import type { Lesson, Route } from '@/data/types';
 import { ESTRADA, geometriaEstrada, type Parada } from '@/game/estrada';
-import { dayKey, isLessonUnlocked, visibleStreak } from '@/game/progress';
+import { dayKey, isLessonUnlocked, nivelDe, visibleStreak } from '@/game/progress';
 import { buzz } from '@/lib/haptics';
 import { DAILY_GOAL_KM, todayKmOf, useProgress } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
 
 export default function RoadScreen() {
   const insets = useSafeAreaInsets();
-  const { km, streak, lastPlayed, garage, todayKm } = useProgress();
+  const { km, streak, lastPlayed, garage, todayKm, lessons } = useProgress();
+  const nivel = nivelDe(Object.keys(lessons).length);
   const shownStreak = visibleStreak(streak, lastPlayed, dayKey());
   const today = todayKmOf(todayKm);
   const scrollRef = useRef<ScrollViewInstance>(null);
@@ -37,6 +38,7 @@ export default function RoadScreen() {
         </Text>
         <View style={styles.pills}>
           <StatPill icon="fire" color={shownStreak ? colors.fire : colors.textFaint} value={shownStreak} label="Dias seguidos" />
+          <StatPill icon="stairs-up" color={colors.accent} value={`Nv ${nivel}`} label={`Nível ${nivel}`} />
           <StatPill icon="speedometer" color={colors.accent} value={km} label="Quilômetros rodados" />
           <StatPill
             icon="garage-variant"
@@ -53,7 +55,9 @@ export default function RoadScreen() {
         style={styles.chipsBar}
         contentContainerStyle={styles.chips}>
         {ROUTES.map((route) => {
-          const owned = route.carIds.filter((id) => id in garage).length;
+          const vendas = ehRotaDeVendas(route.id);
+          const owned = vendas ? lessonsOfRoute(route.id).filter((l) => l.id in lessons).length : route.carIds.filter((id) => id in garage).length;
+          const total = vendas ? lessonsOfRoute(route.id).length : route.carIds.length;
           return (
             <Pressable
               key={route.id}
@@ -68,7 +72,7 @@ export default function RoadScreen() {
                 {route.flag} {route.title}
               </Text>
               <Text style={[styles.chipCount, { color: route.color }]}>
-                {owned}/{route.carIds.length}
+                {owned}/{total}
               </Text>
             </Pressable>
           );
@@ -124,7 +128,9 @@ function RouteSection({ route, number }: { route: Route; number: number }) {
           <Text style={[styles.signTitle, locked && { color: colors.textDim }]}>{route.title}</Text>
           <Text style={[styles.signSubtitle, locked && { color: colors.textFaint }]}>{route.subtitle}</Text>
           <Text style={styles.signCount}>
-            {owned}/{route.carIds.length} carros na garagem
+            {ehRotaDeVendas(route.id)
+              ? `${estados.filter((e) => e === 'done').length}/${routeLessons.length} etapas concluídas`
+              : `${owned}/${route.carIds.length} carros na garagem`}
           </Text>
         </View>
       </View>

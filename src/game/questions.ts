@@ -1,17 +1,21 @@
 import { CAR_BY_ID, CARS, EXTRA_MAKES } from '@/data/cars';
-import { ROUTE_BY_ID } from '@/data/routes';
+import { ehRotaDeVendas, LESSONS, ROUTE_BY_ID } from '@/data/routes';
 import type { Car, Crop, Lesson, LessonLevel } from '@/data/types';
+import { VENDAS } from '@/data/vendas';
 
 import { pick, shuffle, type Rng } from './random';
 
-export type QuestionKind = 'brand' | 'identify' | 'trivia' | 'decade';
+export type QuestionKind = 'brand' | 'identify' | 'trivia' | 'decade' | 'vendas';
 
 export type Option = { label: string; sub?: string };
 
 export type Question = {
   key: string;
   kind: QuestionKind;
+  /** carro da pergunta ('' quando a resposta não está no catálogo, ex.: Monza) */
   carId: string;
+  /** ano em destaque (perguntas de vendas) */
+  ano?: number;
   prompt: string;
   /** Recorte da foto; null = mostra a foto inteira. */
   crop: Crop | null;
@@ -36,11 +40,22 @@ function cropFor(car: Car, index: number, boost: number): Crop {
   return { ...base, zoom: Math.min(MAX_ZOOM, Math.max(1, base.zoom * boost)) };
 }
 
-/** Níveis de zoom ao pedir dica ("afastar a câmera"). */
-export function zoomLevels(crop: Crop): number[] {
+/**
+ * Dificuldade pelo nível do jogador (que sobe com as etapas concluídas, ver game/progress.ts):
+ * o recorte fecha mais (mostra menos do carro) e sobram menos dicas de "afastar a câmera".
+ *   nível 1–2: 2 dicas · nível 3–4: 1 dica · nível 5: nenhuma
+ */
+export type Dificuldade = { nivel: number; zoom: number; dicas: number };
+export function dificuldadeDoNivel(nivel: number): Dificuldade {
+  const n = Math.max(1, Math.round(nivel));
+  return { nivel: n, zoom: 1 + 0.08 * (n - 1), dicas: n <= 2 ? 2 : n <= 4 ? 1 : 0 };
+}
+
+/** Níveis de zoom ao pedir dica ("afastar a câmera"); `dicas` limita quantas vezes dá para afastar. */
+export function zoomLevels(crop: Crop, dicas = 2): number[] {
   const z = crop.zoom;
   if (z <= 1.05) return [1];
-  return [z, 1 + (z - 1) * 0.5, 1 + (z - 1) * 0.2];
+  return [z, 1 + (z - 1) * 0.5, 1 + (z - 1) * 0.2].slice(0, Math.max(0, dicas) + 1);
 }
 
 function identifyDistractors(car: Car, lesson: Lesson, rng: Rng): Car[] {
@@ -149,9 +164,24 @@ function placeAfterOwnCar(base: Question[], extras: Question[], rng: Rng): Quest
   return out;
 }
 
-export function buildLesson(lesson: Lesson, rng: Rng): Question[] {
+/** Perguntas da rota de vendas: as da etapa, e no desafio mais três das outras etapas. */
+function buildVendas(lesson: Lesson, rng: Rng): Question[] {
+  const etapa = LESSONS.filter((l) => l.route === lesson.route).indexOf(lesson);
+  const daEtapa = VENDAS[etapa].map((p, i) => ({ p, chave: `vendas-${etapa}-${i}` }));
+  const extras =
+    lesson.level === 'challenge'
+      ? shuffle(VENDAS.flatMap((lista, e) => (e === etapa ? [] : lista.map((p, i) => ({ p, chave: `vendas-${e}-${i}` })))), rng).slice(0, 3)
+      : [];
+  return shuffle([...daEtapa, ...extras], rng).map(({ p, chave }) => {
+    const { options, answer } = withOptions({ label: p.a }, p.wrong.map((label) => ({ label })), rng);
+    return { key: chave, kind: 'vendas', carId: p.carId ?? '', ano: p.ano, prompt: p.q, crop: null, options, answer, fact: p.fato };
+  });
+}
+
+export function buildLesson(lesson: Lesson, rng: Rng, nivel = 1): Question[] {
+  if (ehRotaDeVendas(lesson.route)) return buildVendas(lesson, rng);
   const cars = lesson.carIds.map((id) => CAR_BY_ID[id]);
-  const boost = LEVEL_ZOOM_BOOST[lesson.level];
+  const boost = LEVEL_ZOOM_BOOST[lesson.level] * dificuldadeDoNivel(nivel).zoom;
 
   if (lesson.level === 'intro') {
     // Rodada 1: marca → Rodada 2: modelo → Rodada 3: curiosidades.
@@ -182,16 +212,17 @@ export function retryOf(q: Question, rng: Rng): Question {
 
 // ───────────── Pontuação ─────────────
 
-const BASE_KM: Record<QuestionKind, number> = { brand: 8, identify: 12, trivia: 8, decade: 8 };
+const BASE_KM: Record<QuestionKind, number> = { brand: 8, identify: 12, trivia: 8, decade: 8, vendas: 10 };
 const LEVEL_MULT: Record<LessonLevel, number> = { intro: 1, review: 1.2, challenge: 1.5 };
 
 export function kmForAnswer(
   q: Question,
-  opts: { zoomOuts: number; retry: boolean; level: LessonLevel },
+  opts: { zoomOuts: number; retry: boolean; level: LessonLevel; nivel?: number },
 ): number {
   if (opts.retry) return 2;
   const base = Math.max(4, BASE_KM[q.kind] - opts.zoomOuts * 3);
-  return Math.round(base * LEVEL_MULT[opts.level]);
+  // cada nível do jogador vale 10% a mais (o jogo fica mais difícil, o prêmio acompanha)
+  return Math.round(base * LEVEL_MULT[opts.level] * (1 + 0.1 * ((opts.nivel ?? 1) - 1)));
 }
 
 export const LESSON_BONUS_KM = 10;

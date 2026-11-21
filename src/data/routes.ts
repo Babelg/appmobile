@@ -10,6 +10,14 @@ export const ROUTES: Route[] = [
     carIds: ['polo', 'onix', 'hb20', 'argo', 'mobi', 'kwid'],
   },
   {
+    id: 'vendas',
+    title: 'Campeões de Vendas',
+    subtitle: 'Qual carro mandou no mercado em cada época?',
+    flag: '🏆',
+    color: '#65A30D',
+    carIds: [],
+  },
+  {
     id: 'suvs',
     title: 'SUVs Compactos',
     subtitle: 'Os altinhos que tomaram conta das ruas',
@@ -121,7 +129,19 @@ export const ROUTE_BY_ID = Object.fromEntries(ROUTES.map((r) => [r.id, r])) as R
 >;
 
 /** Cada rota tem 4 etapas: duas de apresentação, uma revisão e um desafio. */
+/** Etapas da rota de vendas: perguntas de história (src/data/vendas.ts), não de fotos. */
+const ETAPAS_VENDAS: Lesson[] = [
+  { id: 'vendas-1', route: 'vendas', title: 'Anos 80', level: 'intro', carIds: [] },
+  { id: 'vendas-2', route: 'vendas', title: 'A era do Gol', level: 'intro', carIds: [] },
+  { id: 'vendas-3', route: 'vendas', title: 'Anos 2010', level: 'review', carIds: [] },
+  { id: 'vendas-4', route: 'vendas', title: 'Desafio dos recordes', level: 'challenge', carIds: [] },
+];
+
+/** Rotas de quiz histórico (sem carros próprios na garagem). */
+export const ehRotaDeVendas = (id: Route['id']) => id === 'vendas';
+
 export const LESSONS: Lesson[] = ROUTES.flatMap((route) => {
+  if (ehRotaDeVendas(route.id)) return ETAPAS_VENDAS;
   const first = route.carIds.slice(0, 3);
   const second = route.carIds.slice(3, 6);
   return [

@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, Icon, type IconName } from '@/components/ui';
 import { CARS } from '@/data/cars';
 import { LESSONS } from '@/data/routes';
-import { dayKey, visibleStreak } from '@/game/progress';
+import { dayKey, faltamParaSubir, nivelDe, visibleStreak } from '@/game/progress';
 import { useProgress } from '@/store/progress';
 import { colors, MAX_CONTENT_WIDTH, radius, space } from '@/theme';
 
@@ -39,10 +39,21 @@ export default function ProfileScreen() {
           label="na garagem"
         />
         <Stat icon="help-circle-outline" color={colors.textDim} value={p.answered} label="perguntas" />
+        <Stat
+          icon="stairs-up"
+          color={colors.accent}
+          value={`Nível ${nivelDe(done)}`}
+          label={faltamParaSubir(done) === null ? 'nível máximo' : `faltam ${faltamParaSubir(done)} etapas p/ subir`}
+        />
       </View>
 
-      <Text style={styles.section}>SOBRE</Text>
+      <Text style={styles.section}>AJUSTES E SOBRE</Text>
       <View style={styles.list}>
+        <Row
+          icon={p.som ? 'volume-high' : 'volume-off'}
+          label={p.som ? 'Sons de acerto e erro: ligados' : 'Sons de acerto e erro: desligados'}
+          onPress={p.alternarSom}
+        />
         <Row icon="image-multiple-outline" label="Créditos das fotos" onPress={() => router.push('/credits')} />
       </View>
       <Text style={styles.disclaimer}>

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
-import { dayKey, nextStreak } from '@/game/progress';
+import { dayKey, nextStreak, nivelDe } from '@/game/progress';
 import { starsFor } from '@/game/questions';
 
 export const DAILY_GOAL_KM = 50;
@@ -41,6 +41,8 @@ type ProgressData = {
   answered: number;
   correct: number;
   todayKm: { day: string; km: number };
+  /** efeitos sonoros de acerto/erro ligados */
+  som: boolean;
 };
 
 export type LessonResult = {
@@ -57,10 +59,14 @@ export type LessonSummary = {
   newCars: string[];
   streak: number;
   streakUp: boolean;
+  /** nível antes e depois da etapa (sobe com as etapas concluídas) */
+  nivelAntes: number;
+  nivelDepois: number;
 };
 
 type ProgressState = ProgressData & {
   finishLesson: (result: LessonResult) => LessonSummary;
+  alternarSom: () => void;
   reset: () => void;
 };
 
@@ -74,6 +80,7 @@ const initial: ProgressData = {
   answered: 0,
   correct: 0,
   todayKm: { day: '', km: 0 },
+  som: true,
 };
 
 export const useProgress = create<ProgressState>()(
@@ -90,6 +97,8 @@ export const useProgress = create<ProgressState>()(
         const streakUp = state.lastPlayed !== today;
 
         const prev = state.lessons[result.lessonId];
+        const nivelAntes = nivelDe(Object.keys(state.lessons).length);
+        const nivelDepois = nivelDe(Object.keys(state.lessons).length + (prev ? 0 : 1));
         const newCars = result.identified.filter((id) => !(id in state.garage));
         const garage = { ...state.garage };
         for (const id of newCars) garage[id] = { collectedAt: today };
@@ -116,15 +125,17 @@ export const useProgress = create<ProgressState>()(
           },
         });
 
-        return { stars, newCars, streak, streakUp };
+        return { stars, newCars, streak, streakUp, nivelAntes, nivelDepois };
       },
 
-      reset: () => set({ ...initial }),
+      alternarSom: () => set({ som: !get().som }),
+
+      reset: () => set({ ...initial, som: get().som }),
     }),
     {
       name: 'progress-v1',
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ finishLesson, reset, ...data }) => data,
+      partialize: ({ finishLesson, alternarSom, reset, ...data }) => data,
     },
   ),
 );

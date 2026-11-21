@@ -29,7 +29,7 @@ export default function GarageScreen() {
         <ProgressBar value={total / CARS.length} color={colors.success} height={10} />
       </View>
 
-      {ROUTES.map((route) => (
+      {ROUTES.filter((route) => route.carIds.length > 0).map((route) => (
         <View key={route.id} style={styles.section}>
           <Text style={styles.sectionTitle}>
             {route.flag} {route.title}
